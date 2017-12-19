@@ -1,0 +1,185 @@
+﻿@viewModel OpenEvents.Admin.ViewModels.EventDetailViewModel, OpenEvents.Admin
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="MainContent">
+
+    <h2>Event Detail</h2>
+
+    <div class="form" DataContext="{value: Item}">
+
+        <div class="form-group">
+            <label>Title</label>
+            <div>
+                <dot:TextBox Text="{value: Title}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <div>
+                <dot:TextBox Text="{value: Description}" Type="MultiLine" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Registration Dates</label>
+            <div class="row">
+                <div class="col-md-6">
+                    <dot:TextBox Text="{value: RegistrationBeginDate}" FormatString="g" ValueType="DateTime" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <dot:TextBox Text="{value: RegistrationEndDate}" FormatString="g" ValueType="DateTime" class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Max Attendees</label>
+            <div>
+                <dot:TextBox Text="{value: MaxAttendeeCount}" class="form-control" />
+            </div>
+        </div>
+
+        <hr />
+
+        <h3>Event Dates</h3>
+        <dot:Repeater DataSource="{value: Dates}">
+            <ItemTemplate>
+
+                <div class="form-group">
+                    <div class="col-md-5">
+                        <dot:TextBox Text="{value: BeginDate}" FormatString="g" ValueType="DateTime" class="form-control" />
+                    </div>
+                    <div class="col-md-5">
+                        <dot:TextBox Text="{value: EndDate}" FormatString="g" ValueType="DateTime" class="form-control" />
+                    </div>
+                    <div>
+                        <dot:LinkButton Click="{command: _root.RemoveDate(_this)}">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </dot:LinkButton>
+                    </div>
+                </div>
+
+            </ItemTemplate>
+            <EmptyDataTemplate>
+                <em>No event dates were set.</em>
+            </EmptyDataTemplate>
+        </dot:Repeater>
+
+        <dot:LinkButton Click="{command: _root.AddDate()}">
+            <span class="glyphicon glyphicon-plus"></span> Add Date
+        </dot:LinkButton>
+
+        <hr />
+
+        <h3>Prices</h3>
+        <dot:Repeater DataSource="{value: Price}">
+            <ItemTemplate>
+
+                <div class="form-group">
+                    <label>Title</label>
+                    <div>
+                        <dot:TextBox Text="{value: Title}" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <div>
+                        <dot:TextBox Text="{value: Description}" Type="MultiLine" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Price</label>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <dot:TextBox Text="{value: Price}" FormatString="n2" ValueType="Number" class="form-control" />
+                        </div>
+                        <div class="col-md-5">
+                            <dot:TextBox Text="{value: CurrencyCode}" class="form-control" />
+                        </div>
+                        <div>
+                            <dot:LinkButton Click="{command: _root.RemovePrice(_this)}">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </dot:LinkButton>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Validity</label>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <dot:TextBox Text="{value: BeginDate}" FormatString="g" ValueType="DateTime" class="form-control" />
+                        </div>
+                        <div class="col-md-5">
+                            <dot:TextBox Text="{value: EndDate}" FormatString="g" ValueType="DateTime" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+            </ItemTemplate>
+            <EmptyDataTemplate>
+                <em>No prices were set.</em>
+            </EmptyDataTemplate>
+        </dot:Repeater>
+
+        <dot:LinkButton Click="{command: _root.AddPrice()}">
+            <span class="glyphicon glyphicon-plus"></span> Add Price
+        </dot:LinkButton>
+
+        <hr />
+
+        <h3>Cancellation Policies</h3>
+        <dot:Repeater DataSource="{value: CancellationPolicies}">
+            <ItemTemplate>
+
+                <div class="form-group">
+                    <label>Fee</label>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <dot:TextBox Text="{value: CancellationFeePercent}" FormatString="n2" ValueType="Number" class="form-control" />
+                        </div>
+                        <div class="col-md-5">
+                            %
+                        </div>
+                        <div>
+                            <dot:LinkButton Click="{command: _root.RemoveCancellationPolicy(_this)}">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </dot:LinkButton>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Validity</label>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <dot:TextBox Text="{value: BeginDate}" FormatString="g" ValueType="DateTime" class="form-control" />
+                        </div>
+                        <div class="col-md-5">
+                            <dot:TextBox Text="{value: EndDate}" FormatString="g" ValueType="DateTime" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+            </ItemTemplate>
+            <EmptyDataTemplate>
+                <em>No cancellation policies were set.</em>
+            </EmptyDataTemplate>
+        </dot:Repeater>
+
+        <dot:LinkButton Click="{command: _root.AddCancellationPolicy()}">
+            <span class="glyphicon glyphicon-plus"></span> Add Cancellation Policy
+        </dot:LinkButton>
+
+    </div>
+
+    <div>
+        <dot:Button Text="Save" Click="{command: Save()}" class="btn btn-primary" />
+        <dot:RouteLink Text="Cancel" RouteName="EventList" class="btn btn-default" />
+    </div>
+
+</dot:Content>
+
