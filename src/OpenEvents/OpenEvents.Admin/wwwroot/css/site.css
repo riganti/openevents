@@ -72,3 +72,9 @@
   font-size: 18px;
   line-height: 34px;
 }
+.alert.alert-danger li {
+  margin-left: 20px;
+}
+.alert.alert-danger:empty {
+  display: none;
+}
