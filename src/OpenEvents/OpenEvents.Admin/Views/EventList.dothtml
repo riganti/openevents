@@ -3,43 +3,49 @@
 
 <dot:Content ContentPlaceHolderID="MainContent">
 
-    <h2>Event List</h2>
-    
-    <p>
-        <dot:RouteLink RouteName="EventDetail" class="btn btn-primary">
-            <span class="glyphicon glyphicon-plus"></span> New Event
-        </dot:RouteLink>
-    </p>
+    <div class="layout-content-title">
+        <div class="pull-right">
+            <dot:RouteLink RouteName="EventDetail" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus"></span> New Event
+            </dot:RouteLink>
+        </div>
 
-    <dot:GridView DataSource="{value: Items}" class="table table-bordered">
-        <Columns>
+        <h2>Events</h2>
+    </div>
 
-            <dot:GridViewTextColumn HeaderText="Title" ValueBinding="{value: Title}" />
-            <dot:GridViewTextColumn HeaderText="Reg. Begin" ValueBinding="{value: RegistrationBeginDate}" FormatString="d" />
-            <dot:GridViewTextColumn HeaderText="Reg. End" ValueBinding="{value: RegistrationEndDate}" FormatString="d" />
-            <dot:GridViewTextColumn HeaderText="Max Attendees" ValueBinding="{value: MaxAttendeeCount}" />
+    <div class="layout-content-body">
 
-            <dot:GridViewTemplateColumn>
-                <dot:RouteLink RouteName="EventDetail" Param-id="{value: Id}">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </dot:RouteLink>
-            </dot:GridViewTemplateColumn>
+        <dot:GridView DataSource="{value: Items}" class="table table-bordered">
+            <Columns>
 
-            <dot:GridViewTemplateColumn>
-                <dot:LinkButton Click="{command: _root.DeleteItem(Id)}">
-                    <PostBack.Handlers>
-                        <dot:ConfirmPostBackHandler Message="Do you really want to delete this event?" />
-                    </PostBack.Handlers>
+                <dot:GridViewTextColumn HeaderText="Title" ValueBinding="{value: Title}" />
+                <dot:GridViewTextColumn HeaderText="Reg. Begin" ValueBinding="{value: RegistrationBeginDate}" FormatString="d" />
+                <dot:GridViewTextColumn HeaderText="Reg. End" ValueBinding="{value: RegistrationEndDate}" FormatString="d" />
+                <dot:GridViewTextColumn HeaderText="Max Attendees" ValueBinding="{value: MaxAttendeeCount}" />
 
-                    <span class="glyphicon glyphicon-remove"></span>
-                </dot:LinkButton>
-            </dot:GridViewTemplateColumn>
+                <dot:GridViewTemplateColumn>
+                    <dot:RouteLink RouteName="EventDetail" Param-id="{value: Id}">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </dot:RouteLink>
+                </dot:GridViewTemplateColumn>
 
-        </Columns>
-        <EmptyDataTemplate>
-            <em>No events have been created yet.</em>
-        </EmptyDataTemplate>
-    </dot:GridView>
+                <dot:GridViewTemplateColumn>
+                    <dot:LinkButton Click="{command: _root.DeleteItem(Id)}">
+                        <PostBack.Handlers>
+                            <dot:ConfirmPostBackHandler Message="Do you really want to delete this event?" />
+                        </PostBack.Handlers>
+
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </dot:LinkButton>
+                </dot:GridViewTemplateColumn>
+
+            </Columns>
+            <EmptyDataTemplate>
+                <em>No events have been created yet.</em>
+            </EmptyDataTemplate>
+        </dot:GridView>
+
+    </div>
 
 </dot:Content>
 

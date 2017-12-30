@@ -14,6 +14,18 @@ namespace OpenEvents.Admin
     public class Startup
     {
 
+        public Startup(IHostingEnvironment hostingEnvironment)
+        {
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(hostingEnvironment.ContentRootPath)
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{hostingEnvironment.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables()
+                .Build();
+        }
+
+        public IConfigurationRoot Configuration { get; set; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -22,12 +34,14 @@ namespace OpenEvents.Admin
             services.AddAuthorization();
             services.AddWebEncoders();
 
+            services.AddOptions();
+
             services.AddDotVVM(options =>
             {
                 options.AddDefaultTempStorages("Temp");
             });
 
-            services.AddSingleton<ApiClient>(provider => new ApiClient("http://localhost:54896/"));
+            services.AddSingleton(provider => new ApiClient(Configuration.GetValue<string>("apiUrl")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

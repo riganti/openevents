@@ -5,16 +5,26 @@
 <head>
     <meta charset="utf-8" />
     <title>OpenEvents.Admin</title>
-    <dot:RequiredResource Name="bootstrap" />
 </head>
 <body>
 
-    <div class="container">
-        <h1>Open Event Admin Portal</h1>
-
-        <dot:ContentPlaceHolder ID="MainContent" />
-
+    <div class="layout-header">
+        <h1>Open Events</h1>
     </div>
+
+    <div class="layout-sidebar">
+        <cc:SidebarMenu />
+    </div>
+
+    <div class="layout-content">
+        <dot:ContentPlaceHolder ID="MainContent" />
+    </div>
+
+
+
+    <dot:ContentPlaceHolder ID="ModalDialogs" />
+
+    <dot:RequiredResource Name="site-style" />
 
 </body>
 </html>

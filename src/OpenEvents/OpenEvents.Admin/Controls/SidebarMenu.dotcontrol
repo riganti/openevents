@@ -1,0 +1,13 @@
+﻿@viewModel OpenEvents.Admin.ViewModels.MasterPageViewModel, OpenEvents.Admin
+
+<bs:ListGroup ItemType="Link" class="sidebar">
+
+    <bs:ListGroupItem RouteName="Default">
+        <bs:GlyphIcon Icon="Dashboard" /> Dashboard
+    </bs:ListGroupItem>
+
+    <bs:ListGroupItem RouteName="EventList">
+        <bs:GlyphIcon Icon="Calendar" /> Events
+    </bs:ListGroupItem>
+
+</bs:ListGroup>

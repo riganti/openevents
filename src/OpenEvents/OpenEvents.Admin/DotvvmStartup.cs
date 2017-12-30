@@ -1,4 +1,5 @@
 ﻿using DotVVM.Framework.Configuration;
+using DotVVM.Framework.Controls.Bootstrap;
 using DotVVM.Framework.ResourceManagement;
 using DotVVM.Framework.Routing;
 
@@ -9,6 +10,13 @@ namespace OpenEvents.Admin
         // For more information about this class, visit https://dotvvm.com/docs/tutorials/basics-project-structure
         public void Configure(DotvvmConfiguration config, string applicationPath)
         {
+            config.AddBootstrapConfiguration(new DotvvmBootstrapOptions()
+            {
+                BootstrapCssUrl = "~/lib/bootstrap/dist/css/bootstrap.min.css",
+                BootstrapJsUrl = "~/lib/bootstrap/dist/js/bootstrap.min.js",
+                JQueryUrl = "~/lib/jquery/dist/jquery.min.js"
+            });
+
             ConfigureRoutes(config, applicationPath);
             ConfigureControls(config, applicationPath);
             ConfigureResources(config, applicationPath);
@@ -27,28 +35,16 @@ namespace OpenEvents.Admin
         private void ConfigureControls(DotvvmConfiguration config, string applicationPath)
         {
             // register code-only controls and markup controls
+            config.Markup.AddMarkupControl("cc", "SidebarMenu", "Controls/SidebarMenu.dotcontrol");
         }
 
         private void ConfigureResources(DotvvmConfiguration config, string applicationPath)
         {
             // register custom resources and adjust paths to the built-in resources
-            config.Resources.Register("bootstrap-css", new StylesheetResource
+            config.Resources.Register("site-style", new StylesheetResource()
             {
-                Location = new UrlResourceLocation("~/lib/bootstrap/dist/css/bootstrap.min.css")
-            });
-            config.Resources.Register("bootstrap-theme", new StylesheetResource
-            {
-                Location = new UrlResourceLocation("~/lib/bootstrap/dist/css/bootstrap-theme.min.css"),
-                Dependencies = new[] { "bootstrap-css" }
-            });
-            config.Resources.Register("bootstrap", new ScriptResource
-            {
-                Location = new UrlResourceLocation("~/lib/bootstrap/dist/js/bootstrap.min.js"),
-                Dependencies = new[] { "bootstrap-css" , "jquery" }
-            });
-            config.Resources.Register("jquery", new ScriptResource
-            {
-                Location = new UrlResourceLocation("~/lib/jquery/dist/jquery.min.js")
+                Location = new UrlResourceLocation("~/css/site.min.css"),
+                Dependencies = new [] { "bootstrap" }
             });
         }
     }

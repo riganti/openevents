@@ -17,15 +17,14 @@
         </Content>
     </ItemGroup>
     <ItemGroup>
+        <None Remove="Controls\SidebarMenu.dotcontrol" />
         <None Remove="dotvvm_serialized_config.json.tmp" />
         <None Remove="Views\EventDetail.dothtml" />
         <None Remove="Views\EventList.dothtml" />
         <None Remove="Views\MasterPage.dotmaster" />
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="wwwroot\" />
-    </ItemGroup>
-    <ItemGroup>
+        <PackageReference Include="DotVVM.Controls.Bootstrap" Version="1.1.7" />
         <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
         <PackageReference Include="DotVVM.AspNetCore" Version="1.1.7" />
