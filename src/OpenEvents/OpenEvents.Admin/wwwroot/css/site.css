@@ -67,3 +67,8 @@
   text-align: right;
   margin-bottom: 8px;
 }
+.panel .panel-heading h3 {
+  margin: 0px;
+  font-size: 18px;
+  line-height: 34px;
+}
