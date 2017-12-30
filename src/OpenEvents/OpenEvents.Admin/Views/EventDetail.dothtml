@@ -141,10 +141,6 @@
                     </ContentTemplate>
                 </bs:Panel>
 
-            </bs:Column>
-
-            <bs:Column SizeMD="6" SizeLG="4" DataContext="{value: Item}">
-
                 <bs:Panel Type="Default">
                     <HeaderTemplate>
                         <div class="pull-right">
