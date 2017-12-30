@@ -5,7 +5,7 @@
 
     <div class="layout-content-title">
         <div class="pull-right">
-            <bs:Button Click="{command: Save()}" Type="Primary" ButtonTagName="button">
+            <bs:Button Click="{command: Save()}" Type="Primary" ButtonTagName="button" Validation.Target="{value: Item}">
                 <bs:GlyphIcon Icon="Ok" /> Save
             </bs:Button>
             <bs:RouteLink Text="Cancel" RouteName="EventList" Type="Default" />
@@ -16,24 +16,35 @@
 
     <div class="layout-content-body">
 
+        <dot:ValidationSummary IncludeErrorsFromChildren="true" class="alert alert-danger" />
+
         <bs:Row>
             <bs:Column SizeMD="6" SizeLG="4">
 
-                <bs:Form DataContext="{value: Item}">
-                    <bs:TextBoxGroup LabelText="Title" Text="{value: Title}" />
-                    <bs:TextBoxGroup LabelText="Description" Text="{value: Description}" Type="MultiLine" />
-                    <bs:FormGroup LabelText="Registration Dates">
-                        <bs:Row>
-                            <bs:Column SizeXS="6">
-                                <bs:DateTimePicker SelectedDate="{value: RegistrationBeginDate}" FormatString="g" Mode="Date" />
-                            </bs:Column>
-                            <bs:Column SizeXS="6">
-                                <bs:DateTimePicker SelectedDate="{value: RegistrationEndDate}" FormatString="g" Mode="Date" />
-                            </bs:Column>
-                        </bs:Row>
-                    </bs:FormGroup>
-                    <bs:TextBoxGroup LabelText="Max Attendees" Text="{value: MaxAttendeeCount}" ValueType="Number" />
-                </bs:Form>
+                <bs:Panel Type="Default">
+                    <HeaderTemplate>
+                        <h3>Event Details</h3>
+                    </HeaderTemplate>
+                    <ContentTemplate>
+
+                        <bs:Form DataContext="{value: Item}">
+                            <bs:TextBoxGroup LabelText="Title" Text="{value: Title}" />
+                            <bs:TextBoxGroup LabelText="Description" Text="{value: Description}" Type="MultiLine" />
+                            <bs:FormGroup LabelText="Registration Dates">
+                                <bs:Row>
+                                    <bs:Column SizeXS="6" Validator.Value="{value: RegistrationBeginDate}">
+                                        <bs:DateTimePicker SelectedDate="{value: RegistrationBeginDate}" FormatString="g" Mode="Date" />
+                                    </bs:Column>
+                                    <bs:Column SizeXS="6" Validator.Value="{value: RegistrationEndDate}">
+                                        <bs:DateTimePicker SelectedDate="{value: RegistrationEndDate}" FormatString="g" Mode="Date" />
+                                    </bs:Column>
+                                </bs:Row>
+                            </bs:FormGroup>
+                            <bs:TextBoxGroup LabelText="Max Attendees" Text="{value: MaxAttendeeCount}" ValueType="Number" />
+                        </bs:Form>
+
+                    </ContentTemplate>
+                </bs:Panel>
 
             </bs:Column>
 
@@ -62,10 +73,10 @@
                                     </div>
 
                                     <bs:Row>
-                                        <bs:Column SizeXS="6">
+                                        <bs:Column SizeXS="6" Validator.Value="{value: BeginDate}">
                                             <bs:DateTimePicker SelectedDate="{value: BeginDate}" FormatString="g" Mode="DateTime" />
                                         </bs:Column>
-                                        <bs:Column SizeXS="6">
+                                        <bs:Column SizeXS="6" Validator.Value="{value: EndDate}">
                                             <bs:DateTimePicker SelectedDate="{value: EndDate}" FormatString="g" Mode="DateTime" />
                                         </bs:Column>
                                     </bs:Row>
@@ -111,10 +122,10 @@
 
                                     <bs:FormGroup LabelText="Price">
                                         <bs:Row>
-                                            <bs:Column SizeXS="6">
+                                            <bs:Column SizeXS="6" Validator.Value="{value: Price}">
                                                 <dot:TextBox Text="{value: Price}" FormatString="n2" ValueType="Number" />
                                             </bs:Column>
-                                            <bs:Column SizeXS="6">
+                                            <bs:Column SizeXS="6" Validator.Value="{value: CurrencyCode}">
                                                 <dot:TextBox Text="{value: CurrencyCode}" />
                                             </bs:Column>
                                         </bs:Row>
@@ -122,10 +133,10 @@
 
                                     <bs:FormGroup LabelText="Validity">
                                         <bs:Row>
-                                            <bs:Column SizeXS="6">
+                                            <bs:Column SizeXS="6" Validator.Value="{value: BeginDate}">
                                                 <bs:DateTimePicker SelectedDate="{value: BeginDate}" FormatString="g" Mode="DateTime" />
                                             </bs:Column>
-                                            <bs:Column SizeXS="6">
+                                            <bs:Column SizeXS="6" Validator.Value="{value: EndDate}">
                                                 <bs:DateTimePicker SelectedDate="{value: EndDate}" FormatString="g" Mode="DateTime" />
                                             </bs:Column>
                                         </bs:Row>
@@ -162,7 +173,7 @@
                                         </dot:LinkButton>
                                     </div>
 
-                                    <bs:FormGroup LabelText="Fee">
+                                    <bs:FormGroup LabelText="Fee" Validator.Value="{value: CancellationFeePercent}">
                                         <bs:InputGroup>
                                             <RightTemplate>%</RightTemplate>
                                             <dot:TextBox Text="{value: CancellationFeePercent}" FormatString="n2" ValueType="Number" />
@@ -171,10 +182,10 @@
 
                                     <bs:FormGroup LabelText="Validity">
                                         <bs:Row>
-                                            <bs:Column SizeXS="6">
+                                            <bs:Column SizeXS="6" Validator.Value="{value: BeginDate}">
                                                 <bs:DateTimePicker SelectedDate="{value: BeginDate}" FormatString="g" Mode="DateTime" />
                                             </bs:Column>
-                                            <bs:Column SizeXS="6">
+                                            <bs:Column SizeXS="6" Validator.Value="{value: EndDate}">
                                                 <bs:DateTimePicker SelectedDate="{value: EndDate}" FormatString="g" Mode="DateTime" />
                                             </bs:Column>
                                         </bs:Row>

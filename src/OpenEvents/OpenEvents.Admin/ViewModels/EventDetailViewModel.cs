@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DotVVM.Framework.ViewModel;
+using OpenEvents.Admin.Helpers;
 using OpenEvents.Backend.Client;
 
 namespace OpenEvents.Admin.ViewModels
@@ -58,14 +59,18 @@ namespace OpenEvents.Admin.ViewModels
 
         public async Task Save()
         {
-            if (ItemId == null)
+            await ValidationHelper.Call(Context, async () =>
             {
-                await client.ApiEventsPostAsync(Item);
-            }
-            else
-            {
-                await client.ApiEventsByIdPutAsync(ItemId, Item);
-            }
+                if (ItemId == null)
+                {
+                    await client.ApiEventsPostAsync(Item);
+                }
+                else
+                {
+                    await client.ApiEventsByIdPutAsync(ItemId, Item);
+                }
+            });
+
             Context.RedirectToRoute("EventList");
         }
 
