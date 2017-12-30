@@ -11,10 +11,10 @@ namespace OpenEvents.Backend
     public static class DatabaseServiceExtensions
     {
 
-        public static void AddMongoDbCollections(this IServiceCollection services)
+        public static void AddMongoDbCollections(this IServiceCollection services, string mongoUrl, string mongoDatabaseName)
         {
-            services.AddSingleton<MongoClient>(provider => new MongoClient("mongodb://localhost:27017"));
-            services.AddSingleton<IMongoDatabase>(provider => provider.GetService<MongoClient>().GetDatabase("openevents"));
+            services.AddSingleton<MongoClient>(provider => new MongoClient(mongoUrl));
+            services.AddSingleton<IMongoDatabase>(provider => provider.GetService<MongoClient>().GetDatabase(mongoDatabaseName));
             services.AddTransient<IMongoCollection<Event>>(provider => provider.GetService<IMongoDatabase>().GetCollection<Event>("events"));
         } 
 
