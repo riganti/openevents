@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using OpenEvents.Backend.Data;
+using OpenEvents.Backend.Filters;
 using OpenEvents.Backend.Model;
 
 namespace OpenEvents.Backend.Controllers
@@ -48,6 +49,7 @@ namespace OpenEvents.Backend.Controllers
 
 
         [HttpPost]
+        [ModelValidationFilter]
         public async Task Create([FromBody] EventDTO eventData)
         {
             var e = Mapper.Map<Event>(eventData);
@@ -59,6 +61,7 @@ namespace OpenEvents.Backend.Controllers
 
         [HttpPut]
         [Route("{id}")]
+        [ModelValidationFilter]
         public async Task Update(string id, [FromBody] EventDTO eventData)
         {
             // TODO: populate existing entity instead of replacing it

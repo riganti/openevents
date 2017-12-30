@@ -14,7 +14,7 @@ namespace OpenEvents.Backend.Data
 
         public List<EventDate> Dates { get; set; } = new List<EventDate>();
 
-        public List<EventPrice> Price { get; set; } = new List<EventPrice>();
+        public List<EventPrice> Prices { get; set; } = new List<EventPrice>();
 
         public List<EventCancellationPolicy> CancellationPolicies { get; set; } = new List<EventCancellationPolicy>();
 
