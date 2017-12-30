@@ -63,3 +63,6 @@
   margin-right: 15px;
   color: #4789ff;
 }
+.list-group-item-header {
+  text-align: right;
+}

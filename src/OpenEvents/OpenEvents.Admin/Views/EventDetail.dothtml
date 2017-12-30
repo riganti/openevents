@@ -5,187 +5,198 @@
 
     <div class="layout-content-title">
         <div class="pull-right">
-            <dot:Button Click="{command: Save()}" class="btn btn-primary" ButtonTagName="button">
+            <bs:Button Click="{command: Save()}" Type="Primary" ButtonTagName="button">
                 <bs:GlyphIcon Icon="Ok" /> Save
-            </dot:Button>
-            <dot:RouteLink Text="Cancel" RouteName="EventList" class="btn btn-default" />
+            </bs:Button>
+            <bs:RouteLink Text="Cancel" RouteName="EventList" Type="Default" />
         </div>
 
         <h2>Event Detail</h2>
     </div>
 
     <div class="layout-content-body">
-        <div class="form" DataContext="{value: Item}">
 
-            <div class="form-group">
-                <label>Title</label>
-                <div>
-                    <dot:TextBox Text="{value: Title}" class="form-control" />
-                </div>
-            </div>
+        <bs:Row>
+            <bs:Column SizeMD="6" SizeLG="4">
 
-            <div class="form-group">
-                <label>Description</label>
-                <div>
-                    <dot:TextBox Text="{value: Description}" Type="MultiLine" class="form-control" />
-                </div>
-            </div>
+                <bs:Form DataContext="{value: Item}">
+                    <bs:TextBoxGroup LabelText="Title" Text="{value: Title}" />
+                    <bs:TextBoxGroup LabelText="Description" Text="{value: Description}" Type="MultiLine" />
+                    <bs:FormGroup LabelText="Registration Dates">
+                        <bs:Row>
+                            <bs:Column SizeXS="6">
+                                <bs:DateTimePicker SelectedDate="{value: RegistrationBeginDate}" FormatString="g" Mode="Date" />
+                            </bs:Column>
+                            <bs:Column SizeXS="6">
+                                <bs:DateTimePicker SelectedDate="{value: RegistrationEndDate}" FormatString="g" Mode="Date" />
+                            </bs:Column>
+                        </bs:Row>
+                    </bs:FormGroup>
+                    <bs:TextBoxGroup LabelText="Max Attendees" Text="{value: MaxAttendeeCount}" ValueType="Number" />
+                </bs:Form>
 
-            <div class="form-group">
-                <label>Registration Dates</label>
-                <div class="row">
-                    <div class="col-md-6">
-                        <dot:TextBox Text="{value: RegistrationBeginDate}" FormatString="g" ValueType="DateTime" class="form-control" />
-                    </div>
-                    <div class="col-md-6">
-                        <dot:TextBox Text="{value: RegistrationEndDate}" FormatString="g" ValueType="DateTime" class="form-control" />
-                    </div>
-                </div>
-            </div>
+            </bs:Column>
 
-            <div class="form-group">
-                <label>Max Attendees</label>
-                <div>
-                    <dot:TextBox Text="{value: MaxAttendeeCount}" class="form-control" />
-                </div>
-            </div>
+            <bs:Column SizeMD="6" SizeLG="4" DataContext="{value: Item}">
 
-            <hr />
-
-            <h3>Event Dates</h3>
-            <dot:Repeater DataSource="{value: Dates}">
-                <ItemTemplate>
-
-                    <div class="form-group">
-                        <div class="col-md-5">
-                            <dot:TextBox Text="{value: BeginDate}" FormatString="g" ValueType="DateTime" class="form-control" />
+                <bs:Panel Type="Default">
+                    <HeaderTemplate>
+                        <div class="pull-right">
+                            <bs:Button Click="{command: _root.AddDate()}" Type="Default" ButtonTagName="button">
+                                <span class="glyphicon glyphicon-plus"></span> Add Date
+                            </bs:Button>
                         </div>
-                        <div class="col-md-5">
-                            <dot:TextBox Text="{value: EndDate}" FormatString="g" ValueType="DateTime" class="form-control" />
+
+                        <h3>Event Dates</h3>
+                    </HeaderTemplate>
+                    <ContentTemplate>
+
+                        <dot:Repeater DataSource="{value: Dates}" class="list-group">
+                            <ItemTemplate>
+
+                                <div class="list-group-item">
+                                    <div class="list-group-item-header">
+                                        <dot:LinkButton Click="{command: _root.RemoveDate(_this)}">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </dot:LinkButton>
+                                    </div>
+
+                                    <bs:Row>
+                                        <bs:Column SizeXS="6">
+                                            <bs:DateTimePicker SelectedDate="{value: BeginDate}" FormatString="g" Mode="DateTime" />
+                                        </bs:Column>
+                                        <bs:Column SizeXS="6">
+                                            <bs:DateTimePicker SelectedDate="{value: EndDate}" FormatString="g" Mode="DateTime" />
+                                        </bs:Column>
+                                    </bs:Row>
+                                </div>
+
+                            </ItemTemplate>
+                            <EmptyDataTemplate>
+                                <em>No event dates were set.</em>
+                            </EmptyDataTemplate>
+                        </dot:Repeater>
+
+                    </ContentTemplate>
+                </bs:Panel>
+
+            </bs:Column>
+
+            <bs:Column SizeMD="6" SizeLG="4" DataContext="{value: Item}">
+
+                <bs:Panel Type="Default">
+                    <HeaderTemplate>
+                        <div class="pull-right">
+                            <bs:Button Click="{command: _root.AddPrice()}" Type="Default" ButtonTagName="button">
+                                <span class="glyphicon glyphicon-plus"></span> Add Price
+                            </bs:Button>
                         </div>
-                        <div>
-                            <dot:LinkButton Click="{command: _root.RemoveDate(_this)}">
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </dot:LinkButton>
+
+                        <h3>Ticket Prices</h3>
+                    </HeaderTemplate>
+                    <ContentTemplate>
+
+                        <dot:Repeater DataSource="{value: Price}" class="list-group">
+                            <ItemTemplate>
+
+                                <div class="list-group-item">
+                                    <div class="list-group-item-header">
+                                        <dot:LinkButton Click="{command: _root.RemovePrice(_this)}">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </dot:LinkButton>
+                                    </div>
+
+                                    <bs:TextBoxGroup LabelText="Title" Text="{value: Title}" />
+                                    <bs:TextBoxGroup LabelText="Description" Text="{value: Description}" Type="MultiLine" />
+
+                                    <bs:FormGroup LabelText="Price">
+                                        <bs:Row>
+                                            <bs:Column SizeXS="6">
+                                                <dot:TextBox Text="{value: Price}" FormatString="n2" ValueType="Number" />
+                                            </bs:Column>
+                                            <bs:Column SizeXS="6">
+                                                <dot:TextBox Text="{value: CurrencyCode}" />
+                                            </bs:Column>
+                                        </bs:Row>
+                                    </bs:FormGroup>
+
+                                    <bs:FormGroup LabelText="Validity">
+                                        <bs:Row>
+                                            <bs:Column SizeXS="6">
+                                                <bs:DateTimePicker SelectedDate="{value: BeginDate}" FormatString="g" Mode="DateTime" />
+                                            </bs:Column>
+                                            <bs:Column SizeXS="6">
+                                                <bs:DateTimePicker SelectedDate="{value: EndDate}" FormatString="g" Mode="DateTime" />
+                                            </bs:Column>
+                                        </bs:Row>
+                                    </bs:FormGroup>
+
+                                </div>
+                            </ItemTemplate>
+                            <EmptyDataTemplate>
+                                <em>No prices were set.</em>
+                            </EmptyDataTemplate>
+                        </dot:Repeater>
+
+                    </ContentTemplate>
+                </bs:Panel>
+
+            </bs:Column>
+
+            <bs:Column SizeMD="6" SizeLG="4" DataContext="{value: Item}">
+
+                <bs:Panel Type="Default">
+                    <HeaderTemplate>
+                        <div class="pull-right">
+                            <bs:Button Click="{command: _root.AddCancellationPolicy()}" Type="Default" ButtonTagName="button">
+                                <span class="glyphicon glyphicon-plus"></span> Add Policy
+                            </bs:Button>
                         </div>
-                    </div>
 
-                </ItemTemplate>
-                <EmptyDataTemplate>
-                    <em>No event dates were set.</em>
-                </EmptyDataTemplate>
-            </dot:Repeater>
+                        <h3>Cancellation Policies</h3>
+                    </HeaderTemplate>
+                    <ContentTemplate>
 
-            <dot:LinkButton Click="{command: _root.AddDate()}">
-                <span class="glyphicon glyphicon-plus"></span> Add Date
-            </dot:LinkButton>
+                        <dot:Repeater DataSource="{value: CancellationPolicies}" class="list-group">
+                            <ItemTemplate>
+                                <div class="list-group-item">
+                                    <div class="list-group-item-header">
+                                        <dot:LinkButton Click="{command: _root.RemoveCancellationPolicy(_this)}">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </dot:LinkButton>
+                                    </div>
 
-            <hr />
+                                    <bs:FormGroup LabelText="Fee">
+                                        <bs:InputGroup>
+                                            <RightTemplate>%</RightTemplate>
+                                            <dot:TextBox Text="{value: CancellationFeePercent}" FormatString="n2" ValueType="Number" />
+                                        </bs:InputGroup>
+                                    </bs:FormGroup>
 
-            <h3>Prices</h3>
-            <dot:Repeater DataSource="{value: Price}">
-                <ItemTemplate>
+                                    <bs:FormGroup LabelText="Validity">
+                                        <bs:Row>
+                                            <bs:Column SizeXS="6">
+                                                <bs:DateTimePicker SelectedDate="{value: BeginDate}" FormatString="g" Mode="DateTime" />
+                                            </bs:Column>
+                                            <bs:Column SizeXS="6">
+                                                <bs:DateTimePicker SelectedDate="{value: EndDate}" FormatString="g" Mode="DateTime" />
+                                            </bs:Column>
+                                        </bs:Row>
+                                    </bs:FormGroup>
+                                </div>
 
-                    <div class="form-group">
-                        <label>Title</label>
-                        <div>
-                            <dot:TextBox Text="{value: Title}" class="form-control" />
-                        </div>
-                    </div>
+                            </ItemTemplate>
+                            <EmptyDataTemplate>
+                                <em>No cancellation policies were set.</em>
+                            </EmptyDataTemplate>
+                        </dot:Repeater>
 
-                    <div class="form-group">
-                        <label>Description</label>
-                        <div>
-                            <dot:TextBox Text="{value: Description}" Type="MultiLine" class="form-control" />
-                        </div>
-                    </div>
+                    </ContentTemplate>
+                </bs:Panel>
 
-                    <div class="form-group">
-                        <label>Price</label>
-                        <div class="row">
-                            <div class="col-md-5">
-                                <dot:TextBox Text="{value: Price}" FormatString="n2" ValueType="Number" class="form-control" />
-                            </div>
-                            <div class="col-md-5">
-                                <dot:TextBox Text="{value: CurrencyCode}" class="form-control" />
-                            </div>
-                            <div>
-                                <dot:LinkButton Click="{command: _root.RemovePrice(_this)}">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </dot:LinkButton>
-                            </div>
-                        </div>
-                    </div>
+            </bs:Column>
 
-                    <div class="form-group">
-                        <label>Validity</label>
-                        <div class="row">
-                            <div class="col-md-5">
-                                <dot:TextBox Text="{value: BeginDate}" FormatString="g" ValueType="DateTime" class="form-control" />
-                            </div>
-                            <div class="col-md-5">
-                                <dot:TextBox Text="{value: EndDate}" FormatString="g" ValueType="DateTime" class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-
-                </ItemTemplate>
-                <EmptyDataTemplate>
-                    <em>No prices were set.</em>
-                </EmptyDataTemplate>
-            </dot:Repeater>
-
-            <dot:LinkButton Click="{command: _root.AddPrice()}">
-                <span class="glyphicon glyphicon-plus"></span> Add Price
-            </dot:LinkButton>
-
-            <hr />
-
-            <h3>Cancellation Policies</h3>
-            <dot:Repeater DataSource="{value: CancellationPolicies}">
-                <ItemTemplate>
-
-                    <div class="form-group">
-                        <label>Fee</label>
-                        <div class="row">
-                            <div class="col-md-5">
-                                <dot:TextBox Text="{value: CancellationFeePercent}" FormatString="n2" ValueType="Number" class="form-control" />
-                            </div>
-                            <div class="col-md-5">
-                                %
-                            </div>
-                            <div>
-                                <dot:LinkButton Click="{command: _root.RemoveCancellationPolicy(_this)}">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </dot:LinkButton>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Validity</label>
-                        <div class="row">
-                            <div class="col-md-5">
-                                <dot:TextBox Text="{value: BeginDate}" FormatString="g" ValueType="DateTime" class="form-control" />
-                            </div>
-                            <div class="col-md-5">
-                                <dot:TextBox Text="{value: EndDate}" FormatString="g" ValueType="DateTime" class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-
-                </ItemTemplate>
-                <EmptyDataTemplate>
-                    <em>No cancellation policies were set.</em>
-                </EmptyDataTemplate>
-            </dot:Repeater>
-
-            <dot:LinkButton Click="{command: _root.AddCancellationPolicy()}">
-                <span class="glyphicon glyphicon-plus"></span> Add Cancellation Policy
-            </dot:LinkButton>
-
-        </div>
-
+        </bs:Row>
     </div>
 
 </dot:Content>
