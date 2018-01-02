@@ -27,6 +27,7 @@ namespace OpenEvents.Admin
         private void ConfigureControls(DotvvmConfiguration config, string applicationPath)
         {
             // register code-only controls and markup controls
+            config.Markup.AddMarkupControl("cc", "Sidebar", "Controls/Sidebar.dotcontrol");
         }
 
         private void ConfigureResources(DotvvmConfiguration config, string applicationPath)
@@ -49,6 +50,12 @@ namespace OpenEvents.Admin
             config.Resources.Register("jquery", new ScriptResource
             {
                 Location = new UrlResourceLocation("~/lib/jquery/dist/jquery.min.js")
+            });
+
+            config.Resources.Register("site-css", new StylesheetResource
+            {
+                Location = new UrlResourceLocation("~/css/site.min.css"),
+                Dependencies = new[] { "bootstrap" }
             });
         }
     }

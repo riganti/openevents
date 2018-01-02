@@ -5,15 +5,20 @@
 <head>
     <meta charset="utf-8" />
     <title>OpenEvents.Admin</title>
-    <dot:RequiredResource Name="bootstrap" />
+    <dot:RequiredResource Name="site-css" />
 </head>
 <body>
 
-    <div class="container">
-        <h1>Open Event Admin Portal</h1>
+    <div class="layout-header">
+        <h1>Open Events</h1>
+    </div>
 
+    <div class="layout-sidebar">
+        <cc:Sidebar />
+    </div>
+
+    <div class="layout-content">
         <dot:ContentPlaceHolder ID="MainContent" />
-
     </div>
 
 </body>
