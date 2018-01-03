@@ -401,7 +401,7 @@ namespace OpenEvents.Backend.Client
         private string _title;
         private string _description;
         private System.Collections.ObjectModel.ObservableCollection<EventDateDTO> _dates;
-        private System.Collections.ObjectModel.ObservableCollection<EventPriceDTO> _price;
+        private System.Collections.ObjectModel.ObservableCollection<EventPriceDTO> _prices;
         private System.Collections.ObjectModel.ObservableCollection<EventCancellationPolicyDTO> _cancellationPolicies;
         private System.DateTime? _registrationBeginDate;
         private System.DateTime? _registrationEndDate;
@@ -421,7 +421,8 @@ namespace OpenEvents.Backend.Client
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("title", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("title", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
         public string Title
         {
             get { return _title; }
@@ -463,15 +464,15 @@ namespace OpenEvents.Backend.Client
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("price", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.ObjectModel.ObservableCollection<EventPriceDTO> Price
+        [Newtonsoft.Json.JsonProperty("prices", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.ObjectModel.ObservableCollection<EventPriceDTO> Prices
         {
-            get { return _price; }
+            get { return _prices; }
             set 
             {
-                if (_price != value)
+                if (_prices != value)
                 {
-                    _price = value; 
+                    _prices = value; 
                     RaisePropertyChanged();
                 }
             }
@@ -520,6 +521,7 @@ namespace OpenEvents.Backend.Client
         }
     
         [Newtonsoft.Json.JsonProperty("maxAttendeeCount", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.Range(1, 2147483647)]
         public int? MaxAttendeeCount
         {
             get { return _maxAttendeeCount; }
@@ -646,6 +648,7 @@ namespace OpenEvents.Backend.Client
         }
     
         [Newtonsoft.Json.JsonProperty("price", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.Range(0D, 2147483647D)]
         public double? Price
         {
             get { return _price; }
@@ -659,7 +662,9 @@ namespace OpenEvents.Backend.Client
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("currencyCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currencyCode", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^[A-Z]{3}$")]
         public string CurrencyCode
         {
             get { return _currencyCode; }
@@ -673,7 +678,8 @@ namespace OpenEvents.Backend.Client
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("title", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("title", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
         public string Title
         {
             get { return _title; }
@@ -757,6 +763,7 @@ namespace OpenEvents.Backend.Client
         }
     
         [Newtonsoft.Json.JsonProperty("cancellationFeePercent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.Range(0D, 100D)]
         public double? CancellationFeePercent
         {
             get { return _cancellationFeePercent; }
