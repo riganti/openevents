@@ -19,6 +19,7 @@ namespace OpenEvents.Admin.ViewModels
             this.client = client;
         }
 
+        public override string CurrentSection => "Events";
 
         public EventDTO Item { get; set; }
 
@@ -47,7 +48,7 @@ namespace OpenEvents.Admin.ViewModels
                     RegistrationBeginDate = DateTime.Today,
                     RegistrationEndDate = DateTime.Today.AddMonths(2),
                     Dates = new ObservableCollection<EventDateDTO>(),
-                    Price = new ObservableCollection<EventPriceDTO>(),
+                    Prices = new ObservableCollection<EventPriceDTO>(),
                     CancellationPolicies = new ObservableCollection<EventCancellationPolicyDTO>()
                 };
             }
@@ -86,7 +87,7 @@ namespace OpenEvents.Admin.ViewModels
 
         public void AddPrice()
         {
-            Item.Price.Add(new EventPriceDTO()
+            Item.Prices.Add(new EventPriceDTO()
             {
                 BeginDate = Item.RegistrationBeginDate,
                 EndDate = Item.RegistrationEndDate,
@@ -96,7 +97,7 @@ namespace OpenEvents.Admin.ViewModels
 
         public void RemovePrice(EventPriceDTO price)
         {
-            Item.Price.Remove(price);
+            Item.Prices.Remove(price);
         }
 
         public void AddCancellationPolicy()

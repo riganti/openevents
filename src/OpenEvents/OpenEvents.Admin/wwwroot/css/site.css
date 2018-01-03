@@ -57,6 +57,10 @@
   border: none;
   border-radius: 0;
 }
+.sidebar .list-group-item.active {
+  background-color: #f1f2f3;
+  color: #333;
+}
 .sidebar .glyphicon {
   font-size: 20px;
   top: 4px;

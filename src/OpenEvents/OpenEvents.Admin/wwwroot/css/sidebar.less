@@ -4,6 +4,11 @@
     .list-group-item {
         border: none;
         border-radius: 0;
+
+        &.active {
+            background-color: @content-background-color;
+            color: @text-color;
+        }
     }
 
     .glyphicon {

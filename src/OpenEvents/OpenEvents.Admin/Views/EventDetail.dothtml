@@ -107,7 +107,7 @@
                     </HeaderTemplate>
                     <ContentTemplate>
 
-                        <dot:Repeater DataSource="{value: Price}" class="list-group">
+                        <dot:Repeater DataSource="{value: Prices}" class="list-group">
                             <ItemTemplate>
 
                                 <div class="list-group-item">

@@ -18,6 +18,7 @@ namespace OpenEvents.Admin.ViewModels
             this.client = client;
         }
 
+        public override string CurrentSection => "Events";
 
         public ObservableCollection<EventDTO> Items { get; set; }
 

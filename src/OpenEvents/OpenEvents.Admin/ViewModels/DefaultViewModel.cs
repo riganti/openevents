@@ -17,5 +17,7 @@ namespace OpenEvents.Admin.ViewModels
 		{
 			Title = "Hello from DotVVM!";
 		}
+
+        public override string CurrentSection => "Default";
     }
 }

@@ -2,11 +2,11 @@
 
 <bs:ListGroup ItemType="Link" class="sidebar">
 
-    <bs:ListGroupItem RouteName="Default">
+    <bs:ListGroupItem RouteName="Default" IsSelected="{value: CurrentSection == "Default"}">
         <bs:GlyphIcon Icon="Dashboard" /> Dashboard
     </bs:ListGroupItem>
 
-    <bs:ListGroupItem RouteName="EventList">
+    <bs:ListGroupItem RouteName="EventList" IsSelected="{value: CurrentSection == "Events"}">
         <bs:GlyphIcon Icon="Calendar" /> Events
     </bs:ListGroupItem>
 

@@ -6,7 +6,10 @@ using DotVVM.Framework.ViewModel;
 
 namespace OpenEvents.Admin.ViewModels
 {
-    public class MasterPageViewModel : DotvvmViewModelBase
+    public abstract class MasterPageViewModel : DotvvmViewModelBase
     {
+
+        public abstract string CurrentSection { get; }
+
     }
 }
