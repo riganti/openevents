@@ -1,0 +1,17 @@
+﻿@viewModel System.Object, mscorlib
+
+<div class="list-group">
+
+    <div class="list-group-item">
+        <dot:RouteLink RouteName="Default">
+            <span class="glyphicon glyphicon-dashboard"></span> Dashboard
+        </dot:RouteLink>
+    </div>
+
+    <div class="list-group-item">
+        <dot:RouteLink RouteName="EventList">
+            <span class="glyphicon glyphicon-calendar"></span> Events
+        </dot:RouteLink>
+    </div>
+
+</div>
