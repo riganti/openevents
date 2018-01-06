@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenEvents.Backend.Data
 {
-    public class Event
+    public class Event : IIdentifiable
     {
 
         public string Id { get; set; }
