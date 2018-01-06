@@ -4,10 +4,12 @@ using System.Linq;
 
 namespace OpenEvents.Backend.Data
 {
-    public class Order
+    public class Order : IIdentifiable, IVersionedEntity
     {
 
         public string Id { get; set; }
+
+        public string ETag { get; set; }
 
         public string EventId { get; set; }
 

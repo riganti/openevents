@@ -36,6 +36,10 @@ namespace OpenEvents.Backend.Model
             {
                 yield return new ValidationResult("The event must specify at least one date!");
             }
+            if (Prices.Distinct().Count() > 1)
+            {
+                yield return new ValidationResult("All event prices must use the same currency!");
+            }
 
             if (RegistrationBeginDate >= RegistrationEndDate)
             {
