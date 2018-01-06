@@ -32,6 +32,7 @@ namespace OpenEvents.Backend.Controllers
             // TODO: add paging and filtering
             
             return eventsCollection.AsQueryable()
+                .ToList()
                 .Select(Mapper.Map<EventDTO>)
                 .ToList();
         }

@@ -11,13 +11,13 @@ using OpenEvents.Backend.Model;
 
 namespace OpenEvents.Backend.Controllers
 {
-    [Route("/api/register")]
-    public class RegistrationController : Controller
+    [Route("/api/registrations")]
+    public class RegistrationsController : Controller
     {
         private readonly IMongoCollection<Event> eventsCollection;
         private readonly IMongoCollection<RegistrationList> registrationListCollection;
 
-        public RegistrationController(IMongoCollection<Event> eventsCollection, IMongoCollection<RegistrationList> registrationListCollection)
+        public RegistrationsController(IMongoCollection<Event> eventsCollection, IMongoCollection<RegistrationList> registrationListCollection)
         {
             this.eventsCollection = eventsCollection;
             this.registrationListCollection = registrationListCollection;

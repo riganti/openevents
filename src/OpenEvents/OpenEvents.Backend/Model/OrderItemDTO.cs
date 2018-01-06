@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenEvents.Backend.Model;
+using OpenEvents.Backend.Common;
 
-namespace OpenEvents.Backend.Data
+namespace OpenEvents.Backend.Model
 {
-    public class OrderItem
+    public class OrderItemDTO
     {
 
         public string Sku { get; set; }
@@ -16,12 +16,11 @@ namespace OpenEvents.Backend.Data
 
         public decimal Amount { get; set; }
 
-        public PriceData Price { get; set; } = new PriceData();
+        public PriceDataDTO Price { get; set; } = new PriceDataDTO();
 
-        public List<ExtensionData> ExtensionData { get; set; } = new List<ExtensionData>();
+        public List<ExtensionDataDTO> ExtensionData { get; set; } = new List<ExtensionDataDTO>();
 
         public string EventRegistrationId { get; set; }
 
     }
-
 }

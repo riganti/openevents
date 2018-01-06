@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OpenEvents.Backend.Data
+namespace OpenEvents.Backend.Common
 {
     public enum OrderPaymentMethod
     {

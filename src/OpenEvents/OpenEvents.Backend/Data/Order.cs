@@ -9,6 +9,8 @@ namespace OpenEvents.Backend.Data
 
         public string Id { get; set; }
 
+        public string EventId { get; set; }
+
         public DateTime CreatedDate { get; set; }
 
         public Address BillingAddress { get; set; }
@@ -28,6 +30,5 @@ namespace OpenEvents.Backend.Data
         public string ReplacedByOrderId { get; set; }
 
         public List<ExtensionData> ExtensionData { get; set; } = new List<ExtensionData>();
-
     }
 }

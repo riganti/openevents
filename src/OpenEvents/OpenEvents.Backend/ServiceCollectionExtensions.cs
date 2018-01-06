@@ -14,7 +14,10 @@ namespace OpenEvents.Backend
         {
             services.AddSingleton<MongoClient>(provider => new MongoClient(mongoUrl));
             services.AddSingleton<IMongoDatabase>(provider => provider.GetService<MongoClient>().GetDatabase(mongoDatabaseName));
+
             services.AddTransient<IMongoCollection<Event>>(provider => provider.GetService<IMongoDatabase>().GetCollection<Event>("events"));
+            services.AddTransient<IMongoCollection<RegistrationList>>(provider => provider.GetService<IMongoDatabase>().GetCollection<RegistrationList>("registrationLists"));
+            services.AddTransient<IMongoCollection<Order>>(provider => provider.GetService<IMongoDatabase>().GetCollection<Order>("orders"));
         } 
 
     }
