@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using OpenEvents.Backend.Data;
 
 namespace OpenEvents.Backend
 {
-    public static class DatabaseServiceExtensions
+    public static class ServiceCollectionExtensions
     {
 
         public static void AddMongoDbCollections(this IServiceCollection services, string mongoUrl, string mongoDatabaseName)
