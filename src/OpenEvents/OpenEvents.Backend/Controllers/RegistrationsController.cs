@@ -23,6 +23,7 @@ namespace OpenEvents.Backend.Controllers
             this.registrationListCollection = registrationListCollection;
         }
 
+        [HttpGet]
         [Route("{eventId}")]
         public async Task<List<RegistrationDTO>> GetList(string eventId)
         {
@@ -43,6 +44,7 @@ namespace OpenEvents.Backend.Controllers
                 .ToList();
         }
 
+        [HttpPost]
         [Route("{eventId}")]
         public async Task<RegistrationDTO> Create(string eventId, RegistrationDTO registration)
         {
@@ -70,7 +72,8 @@ namespace OpenEvents.Backend.Controllers
             return registration;
         }
 
-        [Route("{eventId}/{registrationId}/cancel")]
+        [HttpDelete]
+        [Route("{eventId}/{registrationId}")]
         public async Task Cancel(string eventId, string registrationId)
         {
             var e = await eventsCollection.FindByIdAsync(eventId);

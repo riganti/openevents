@@ -7,16 +7,13 @@ using OpenEvents.Backend.Model;
 
 namespace OpenEvents.Backend.Mappings
 {
-    public class RegistrationListMapping
+    public class OrderMapping
     {
 
         public void Configure(IMapperConfigurationExpression mapper)
         {
-            mapper.CreateMap<Registration, RegistrationDTO>();
-            
-            mapper.CreateMap<RegistrationDTO, Registration>()
-                .ForMember(e => e.Id, m => m.Ignore());
+            mapper.CreateMap<Order, OrderDTO>();
         }
-        
+
     }
 }

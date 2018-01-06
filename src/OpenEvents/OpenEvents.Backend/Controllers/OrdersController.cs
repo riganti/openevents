@@ -25,7 +25,7 @@ namespace OpenEvents.Backend.Controllers
             this.ordersCollection = ordersCollection;
         }
 
-
+        [HttpGet]
         [Route("{eventId}")]
         public List<OrderDTO> GetList(string eventId)
         {
@@ -35,15 +35,7 @@ namespace OpenEvents.Backend.Controllers
                 .Select(Mapper.Map<OrderDTO>)
                 .ToList();
         }
-
-        [Route("{eventId}")]
-        public async Task<OrderDTO> Create(NewOrderDTO order)
-        {
-            
-        }
+        
     }
-
-    public class NewOrderDTO
-    {
-    }
+    
 }

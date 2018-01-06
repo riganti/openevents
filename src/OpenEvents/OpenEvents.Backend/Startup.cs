@@ -46,6 +46,8 @@ namespace OpenEvents.Backend
             Mapper.Initialize(mapper =>
             {
                 new EventMapping().Configure(mapper);
+                new RegistrationListMapping().Configure(mapper);
+                new OrderMapping().Configure(mapper);
             });
         }
 

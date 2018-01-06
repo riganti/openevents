@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenEvents.Backend.Common;
 using OpenEvents.Backend.Model;
 
 namespace OpenEvents.Backend.Data
