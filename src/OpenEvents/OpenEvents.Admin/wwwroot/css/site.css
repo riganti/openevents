@@ -34,6 +34,7 @@
   top: 60px;
   right: 0px;
   bottom: 0px;
+  overflow: auto;
   background-color: #f1f2f3;
 }
 .layout-content .layout-content-title {

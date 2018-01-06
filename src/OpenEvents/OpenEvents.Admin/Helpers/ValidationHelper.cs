@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using DotVVM.Framework.Hosting;
 using DotVVM.Framework.ViewModel.Validation;
 using Newtonsoft.Json;
-using OpenEvents.Backend.Client;
+using OpenEvents.Client;
 
 namespace OpenEvents.Admin.Helpers
 {

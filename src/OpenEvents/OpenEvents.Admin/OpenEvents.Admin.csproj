@@ -34,6 +34,7 @@
         <DotNetCliToolReference Include="DotVVM.Compiler.Light" Version="1.1.7" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\OpenEvents.Backend.Client\OpenEvents.Backend.Client.csproj" />
+      <ProjectReference Include="..\OpenEvents.Client.Events\OpenEvents.Client.Events.csproj" />
+      <ProjectReference Include="..\OpenEvents.Client.Orders\OpenEvents.Client.Orders.csproj" />
     </ItemGroup>
 </Project>

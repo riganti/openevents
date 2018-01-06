@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DotVVM.Framework.ViewModel;
-using OpenEvents.Backend.Client;
+using OpenEvents.Client;
 
 namespace OpenEvents.Admin.ViewModels
 {
     public class EventListViewModel : MasterPageViewModel
     {
-        private readonly ApiClient client;
+        private readonly EventsApi client;
 
-        public EventListViewModel(ApiClient client)
+        public EventListViewModel(EventsApi client)
         {
             this.client = client;
         }

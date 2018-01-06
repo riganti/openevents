@@ -6,15 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using DotVVM.Framework.ViewModel;
 using OpenEvents.Admin.Helpers;
-using OpenEvents.Backend.Client;
+using OpenEvents.Client;
 
 namespace OpenEvents.Admin.ViewModels
 {
     public class EventDetailViewModel : MasterPageViewModel
     {
-        private readonly ApiClient client;
+        private readonly EventsApi client;
 
-        public EventDetailViewModel(ApiClient client)
+        public EventDetailViewModel(EventsApi client)
         {
             this.client = client;
         }

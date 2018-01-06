@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using DotVVM.Framework.Hosting;
-using OpenEvents.Backend.Client;
+using OpenEvents.Client;
 
 namespace OpenEvents.Admin
 {
@@ -41,7 +41,8 @@ namespace OpenEvents.Admin
                 options.AddDefaultTempStorages("Temp");
             });
 
-            services.AddSingleton(provider => new ApiClient(Configuration.GetValue<string>("apiUrl")));
+            services.AddSingleton(provider => new EventsApi(Configuration.GetValue<string>("api:events")));
+            services.AddSingleton(provider => new OrdersApi(Configuration.GetValue<string>("api:orders")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
