@@ -113,7 +113,7 @@ namespace OpenEvents.Backend.Client
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task ApiEventsPostAsync(EventDTO eventData)
+        public System.Threading.Tasks.Task<EventDTO> ApiEventsPostAsync(EventDTO eventData)
         {
             return ApiEventsPostAsync(eventData, System.Threading.CancellationToken.None);
         }
@@ -121,7 +121,7 @@ namespace OpenEvents.Backend.Client
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task ApiEventsPostAsync(EventDTO eventData, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<EventDTO> ApiEventsPostAsync(EventDTO eventData, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/events");
@@ -135,6 +135,7 @@ namespace OpenEvents.Backend.Client
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
@@ -151,9 +152,19 @@ namespace OpenEvents.Backend.Client
                         ProcessResponse(client_, response_);
     
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200") 
+                        if (status_ == "201") 
                         {
-                            return;
+                            var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            var result_ = default(EventDTO); 
+                            try
+                            {
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<EventDTO>(responseData_, _settings.Value);
+                                return result_; 
+                            } 
+                            catch (System.Exception exception_) 
+                            {
+                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                            }
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -161,6 +172,8 @@ namespace OpenEvents.Backend.Client
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
                         }
+            
+                        return default(EventDTO);
                     }
                     finally
                     {
@@ -342,6 +355,320 @@ namespace OpenEvents.Backend.Client
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/events/{id}");
             urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(System.Convert.ToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+    
+            var client_ = new System.Net.Http.HttpClient();
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
+    
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+    
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        foreach (var item_ in response_.Content.Headers)
+                            headers_[item_.Key] = item_.Value;
+    
+                        ProcessResponse(client_, response_);
+    
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200") 
+                        {
+                            return;
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (client_ != null)
+                    client_.Dispose();
+            }
+        }
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<OrderDTO>> ApiOrdersByEventIdGetAsync(string eventId)
+        {
+            return ApiOrdersByEventIdGetAsync(eventId, System.Threading.CancellationToken.None);
+        }
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        public async System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<OrderDTO>> ApiOrdersByEventIdGetAsync(string eventId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (eventId == null)
+                throw new System.ArgumentNullException("eventId");
+    
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/orders/{eventId}");
+            urlBuilder_.Replace("{eventId}", System.Uri.EscapeDataString(System.Convert.ToString(eventId, System.Globalization.CultureInfo.InvariantCulture)));
+    
+            var client_ = new System.Net.Http.HttpClient();
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+    
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+    
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        foreach (var item_ in response_.Content.Headers)
+                            headers_[item_.Key] = item_.Value;
+    
+                        ProcessResponse(client_, response_);
+    
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200") 
+                        {
+                            var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            var result_ = default(System.Collections.ObjectModel.ObservableCollection<OrderDTO>); 
+                            try
+                            {
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<OrderDTO>>(responseData_, _settings.Value);
+                                return result_; 
+                            } 
+                            catch (System.Exception exception_) 
+                            {
+                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                            }
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                        }
+            
+                        return default(System.Collections.ObjectModel.ObservableCollection<OrderDTO>);
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (client_ != null)
+                    client_.Dispose();
+            }
+        }
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<RegistrationDTO>> ApiRegistrationsByEventIdGetAsync(string eventId)
+        {
+            return ApiRegistrationsByEventIdGetAsync(eventId, System.Threading.CancellationToken.None);
+        }
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        public async System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<RegistrationDTO>> ApiRegistrationsByEventIdGetAsync(string eventId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (eventId == null)
+                throw new System.ArgumentNullException("eventId");
+    
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/registrations/{eventId}");
+            urlBuilder_.Replace("{eventId}", System.Uri.EscapeDataString(System.Convert.ToString(eventId, System.Globalization.CultureInfo.InvariantCulture)));
+    
+            var client_ = new System.Net.Http.HttpClient();
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+    
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+    
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        foreach (var item_ in response_.Content.Headers)
+                            headers_[item_.Key] = item_.Value;
+    
+                        ProcessResponse(client_, response_);
+    
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200") 
+                        {
+                            var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            var result_ = default(System.Collections.ObjectModel.ObservableCollection<RegistrationDTO>); 
+                            try
+                            {
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.ObjectModel.ObservableCollection<RegistrationDTO>>(responseData_, _settings.Value);
+                                return result_; 
+                            } 
+                            catch (System.Exception exception_) 
+                            {
+                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                            }
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                        }
+            
+                        return default(System.Collections.ObjectModel.ObservableCollection<RegistrationDTO>);
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (client_ != null)
+                    client_.Dispose();
+            }
+        }
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<RegistrationDTO> ApiRegistrationsByEventIdPostAsync(string eventId, string id, string firstName, string lastName, string email, string orderId)
+        {
+            return ApiRegistrationsByEventIdPostAsync(eventId, id, firstName, lastName, email, orderId, System.Threading.CancellationToken.None);
+        }
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        public async System.Threading.Tasks.Task<RegistrationDTO> ApiRegistrationsByEventIdPostAsync(string eventId, string id, string firstName, string lastName, string email, string orderId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (eventId == null)
+                throw new System.ArgumentNullException("eventId");
+    
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/registrations/{eventId}?");
+            urlBuilder_.Replace("{eventId}", System.Uri.EscapeDataString(System.Convert.ToString(eventId, System.Globalization.CultureInfo.InvariantCulture)));
+            if (id != null) urlBuilder_.Append("Id=").Append(System.Uri.EscapeDataString(System.Convert.ToString(id, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (firstName != null) urlBuilder_.Append("FirstName=").Append(System.Uri.EscapeDataString(System.Convert.ToString(firstName, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (lastName != null) urlBuilder_.Append("LastName=").Append(System.Uri.EscapeDataString(System.Convert.ToString(lastName, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (email != null) urlBuilder_.Append("Email=").Append(System.Uri.EscapeDataString(System.Convert.ToString(email, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (orderId != null) urlBuilder_.Append("OrderId=").Append(System.Uri.EscapeDataString(System.Convert.ToString(orderId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Length--;
+    
+            var client_ = new System.Net.Http.HttpClient();
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Content = new System.Net.Http.StringContent(string.Empty);
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+    
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+    
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        foreach (var item_ in response_.Content.Headers)
+                            headers_[item_.Key] = item_.Value;
+    
+                        ProcessResponse(client_, response_);
+    
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200") 
+                        {
+                            var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            var result_ = default(RegistrationDTO); 
+                            try
+                            {
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<RegistrationDTO>(responseData_, _settings.Value);
+                                return result_; 
+                            } 
+                            catch (System.Exception exception_) 
+                            {
+                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                            }
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                        }
+            
+                        return default(RegistrationDTO);
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (client_ != null)
+                    client_.Dispose();
+            }
+        }
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task ApiRegistrationsByEventIdByRegistrationIdDeleteAsync(string eventId, string registrationId)
+        {
+            return ApiRegistrationsByEventIdByRegistrationIdDeleteAsync(eventId, registrationId, System.Threading.CancellationToken.None);
+        }
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        public async System.Threading.Tasks.Task ApiRegistrationsByEventIdByRegistrationIdDeleteAsync(string eventId, string registrationId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (eventId == null)
+                throw new System.ArgumentNullException("eventId");
+    
+            if (registrationId == null)
+                throw new System.ArgumentNullException("registrationId");
+    
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/registrations/{eventId}/{registrationId}");
+            urlBuilder_.Replace("{eventId}", System.Uri.EscapeDataString(System.Convert.ToString(eventId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Replace("{registrationId}", System.Uri.EscapeDataString(System.Convert.ToString(registrationId, System.Globalization.CultureInfo.InvariantCulture)));
     
             var client_ = new System.Net.Http.HttpClient();
             try
@@ -612,12 +939,28 @@ namespace OpenEvents.Backend.Client
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class EventPriceDTO : System.ComponentModel.INotifyPropertyChanged
     {
+        private string _sku;
         private System.DateTime? _beginDate;
         private System.DateTime? _endDate;
         private double? _price;
         private string _currencyCode;
         private string _title;
         private string _description;
+    
+        [Newtonsoft.Json.JsonProperty("sku", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public string Sku
+        {
+            get { return _sku; }
+            set 
+            {
+                if (_sku != value)
+                {
+                    _sku = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
     
         [Newtonsoft.Json.JsonProperty("beginDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTime? BeginDate
@@ -795,6 +1138,1132 @@ namespace OpenEvents.Backend.Client
             if (handler != null) 
                 handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
         }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v9.0.0.0)")]
+    public partial class OrderDTO : System.ComponentModel.INotifyPropertyChanged
+    {
+        private string _id;
+        private string _eventId;
+        private System.DateTime? _createdDate;
+        private AddressDTO _billingAddress;
+        private OrderCustomerDataDTO _customerData;
+        private OrderPaymentDataDTO _paymentData;
+        private System.Collections.ObjectModel.ObservableCollection<OrderItemDTO> _orderItems;
+        private PriceDataDTO _totalPrice;
+        private System.Collections.ObjectModel.ObservableCollection<OrderDocumentDTO> _orderDocuments;
+        private System.DateTime? _canceledDate;
+        private string _replacedByOrderId;
+        private System.Collections.ObjectModel.ObservableCollection<ExtensionDataDTO> _extensionData;
+    
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Id
+        {
+            get { return _id; }
+            set 
+            {
+                if (_id != value)
+                {
+                    _id = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("eventId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string EventId
+        {
+            get { return _eventId; }
+            set 
+            {
+                if (_eventId != value)
+                {
+                    _eventId = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("createdDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTime? CreatedDate
+        {
+            get { return _createdDate; }
+            set 
+            {
+                if (_createdDate != value)
+                {
+                    _createdDate = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("billingAddress", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public AddressDTO BillingAddress
+        {
+            get { return _billingAddress; }
+            set 
+            {
+                if (_billingAddress != value)
+                {
+                    _billingAddress = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("customerData", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public OrderCustomerDataDTO CustomerData
+        {
+            get { return _customerData; }
+            set 
+            {
+                if (_customerData != value)
+                {
+                    _customerData = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("paymentData", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public OrderPaymentDataDTO PaymentData
+        {
+            get { return _paymentData; }
+            set 
+            {
+                if (_paymentData != value)
+                {
+                    _paymentData = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("orderItems", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.ObjectModel.ObservableCollection<OrderItemDTO> OrderItems
+        {
+            get { return _orderItems; }
+            set 
+            {
+                if (_orderItems != value)
+                {
+                    _orderItems = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("totalPrice", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public PriceDataDTO TotalPrice
+        {
+            get { return _totalPrice; }
+            set 
+            {
+                if (_totalPrice != value)
+                {
+                    _totalPrice = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("orderDocuments", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.ObjectModel.ObservableCollection<OrderDocumentDTO> OrderDocuments
+        {
+            get { return _orderDocuments; }
+            set 
+            {
+                if (_orderDocuments != value)
+                {
+                    _orderDocuments = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("canceledDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTime? CanceledDate
+        {
+            get { return _canceledDate; }
+            set 
+            {
+                if (_canceledDate != value)
+                {
+                    _canceledDate = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("replacedByOrderId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ReplacedByOrderId
+        {
+            get { return _replacedByOrderId; }
+            set 
+            {
+                if (_replacedByOrderId != value)
+                {
+                    _replacedByOrderId = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("extensionData", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.ObjectModel.ObservableCollection<ExtensionDataDTO> ExtensionData
+        {
+            get { return _extensionData; }
+            set 
+            {
+                if (_extensionData != value)
+                {
+                    _extensionData = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+        
+        public static OrderDTO FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<OrderDTO>(data);
+        }
+    
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) 
+                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v9.0.0.0)")]
+    public partial class AddressDTO : System.ComponentModel.INotifyPropertyChanged
+    {
+        private string _name;
+        private string _street;
+        private string _city;
+        private string _zip;
+        private string _state;
+        private string _countryCode;
+        private string _companyRegistrationNumber;
+        private string _vatNumber;
+        private string _contactEmail;
+        private string _contactPhone;
+    
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Name
+        {
+            get { return _name; }
+            set 
+            {
+                if (_name != value)
+                {
+                    _name = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("street", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Street
+        {
+            get { return _street; }
+            set 
+            {
+                if (_street != value)
+                {
+                    _street = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("city", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string City
+        {
+            get { return _city; }
+            set 
+            {
+                if (_city != value)
+                {
+                    _city = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("zip", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Zip
+        {
+            get { return _zip; }
+            set 
+            {
+                if (_zip != value)
+                {
+                    _zip = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("state", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string State
+        {
+            get { return _state; }
+            set 
+            {
+                if (_state != value)
+                {
+                    _state = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("countryCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string CountryCode
+        {
+            get { return _countryCode; }
+            set 
+            {
+                if (_countryCode != value)
+                {
+                    _countryCode = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("companyRegistrationNumber", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string CompanyRegistrationNumber
+        {
+            get { return _companyRegistrationNumber; }
+            set 
+            {
+                if (_companyRegistrationNumber != value)
+                {
+                    _companyRegistrationNumber = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("vatNumber", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string VatNumber
+        {
+            get { return _vatNumber; }
+            set 
+            {
+                if (_vatNumber != value)
+                {
+                    _vatNumber = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("contactEmail", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ContactEmail
+        {
+            get { return _contactEmail; }
+            set 
+            {
+                if (_contactEmail != value)
+                {
+                    _contactEmail = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("contactPhone", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ContactPhone
+        {
+            get { return _contactPhone; }
+            set 
+            {
+                if (_contactPhone != value)
+                {
+                    _contactPhone = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+        
+        public static AddressDTO FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<AddressDTO>(data);
+        }
+    
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) 
+                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v9.0.0.0)")]
+    public partial class OrderCustomerDataDTO : System.ComponentModel.INotifyPropertyChanged
+    {
+        private string _orderNumber;
+        private string _notes;
+    
+        [Newtonsoft.Json.JsonProperty("orderNumber", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OrderNumber
+        {
+            get { return _orderNumber; }
+            set 
+            {
+                if (_orderNumber != value)
+                {
+                    _orderNumber = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("notes", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Notes
+        {
+            get { return _notes; }
+            set 
+            {
+                if (_notes != value)
+                {
+                    _notes = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+        
+        public static OrderCustomerDataDTO FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<OrderCustomerDataDTO>(data);
+        }
+    
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) 
+                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v9.0.0.0)")]
+    public partial class OrderPaymentDataDTO : System.ComponentModel.INotifyPropertyChanged
+    {
+        private System.DateTime? _vatDate;
+        private System.DateTime? _dueDate;
+        private System.DateTime? _paidDate;
+        private System.Collections.ObjectModel.ObservableCollection<OrderPaymentDTO> _payments;
+    
+        [Newtonsoft.Json.JsonProperty("vatDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTime? VatDate
+        {
+            get { return _vatDate; }
+            set 
+            {
+                if (_vatDate != value)
+                {
+                    _vatDate = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("dueDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTime? DueDate
+        {
+            get { return _dueDate; }
+            set 
+            {
+                if (_dueDate != value)
+                {
+                    _dueDate = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("paidDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTime? PaidDate
+        {
+            get { return _paidDate; }
+            set 
+            {
+                if (_paidDate != value)
+                {
+                    _paidDate = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("payments", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.ObjectModel.ObservableCollection<OrderPaymentDTO> Payments
+        {
+            get { return _payments; }
+            set 
+            {
+                if (_payments != value)
+                {
+                    _payments = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+        
+        public static OrderPaymentDataDTO FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<OrderPaymentDataDTO>(data);
+        }
+    
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) 
+                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v9.0.0.0)")]
+    public partial class OrderItemDTO : System.ComponentModel.INotifyPropertyChanged
+    {
+        private string _sku;
+        private OrderItemDTOType? _type;
+        private string _description;
+        private double? _amount;
+        private PriceDataDTO _price;
+        private System.Collections.ObjectModel.ObservableCollection<ExtensionDataDTO> _extensionData;
+        private string _eventRegistrationId;
+    
+        [Newtonsoft.Json.JsonProperty("sku", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Sku
+        {
+            get { return _sku; }
+            set 
+            {
+                if (_sku != value)
+                {
+                    _sku = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public OrderItemDTOType? Type
+        {
+            get { return _type; }
+            set 
+            {
+                if (_type != value)
+                {
+                    _type = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Description
+        {
+            get { return _description; }
+            set 
+            {
+                if (_description != value)
+                {
+                    _description = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("amount", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double? Amount
+        {
+            get { return _amount; }
+            set 
+            {
+                if (_amount != value)
+                {
+                    _amount = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("price", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public PriceDataDTO Price
+        {
+            get { return _price; }
+            set 
+            {
+                if (_price != value)
+                {
+                    _price = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("extensionData", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.ObjectModel.ObservableCollection<ExtensionDataDTO> ExtensionData
+        {
+            get { return _extensionData; }
+            set 
+            {
+                if (_extensionData != value)
+                {
+                    _extensionData = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("eventRegistrationId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string EventRegistrationId
+        {
+            get { return _eventRegistrationId; }
+            set 
+            {
+                if (_eventRegistrationId != value)
+                {
+                    _eventRegistrationId = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+        
+        public static OrderItemDTO FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<OrderItemDTO>(data);
+        }
+    
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) 
+                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v9.0.0.0)")]
+    public partial class PriceDataDTO : System.ComponentModel.INotifyPropertyChanged
+    {
+        private double? _basePrice;
+        private double? _discountPercent;
+        private double? _price;
+        private double? _vatRate;
+        private double? _priceInclVat;
+        private string _currencyCode;
+    
+        [Newtonsoft.Json.JsonProperty("basePrice", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double? BasePrice
+        {
+            get { return _basePrice; }
+            set 
+            {
+                if (_basePrice != value)
+                {
+                    _basePrice = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("discountPercent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double? DiscountPercent
+        {
+            get { return _discountPercent; }
+            set 
+            {
+                if (_discountPercent != value)
+                {
+                    _discountPercent = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("price", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double? Price
+        {
+            get { return _price; }
+            set 
+            {
+                if (_price != value)
+                {
+                    _price = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("vatRate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double? VatRate
+        {
+            get { return _vatRate; }
+            set 
+            {
+                if (_vatRate != value)
+                {
+                    _vatRate = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("priceInclVat", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double? PriceInclVat
+        {
+            get { return _priceInclVat; }
+            set 
+            {
+                if (_priceInclVat != value)
+                {
+                    _priceInclVat = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("currencyCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string CurrencyCode
+        {
+            get { return _currencyCode; }
+            set 
+            {
+                if (_currencyCode != value)
+                {
+                    _currencyCode = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+        
+        public static PriceDataDTO FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<PriceDataDTO>(data);
+        }
+    
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) 
+                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v9.0.0.0)")]
+    public partial class OrderDocumentDTO : System.ComponentModel.INotifyPropertyChanged
+    {
+        private string _id;
+        private string _url;
+        private OrderDocumentDTOType? _type;
+        private System.DateTime? _createdDate;
+    
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Id
+        {
+            get { return _id; }
+            set 
+            {
+                if (_id != value)
+                {
+                    _id = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("url", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Url
+        {
+            get { return _url; }
+            set 
+            {
+                if (_url != value)
+                {
+                    _url = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public OrderDocumentDTOType? Type
+        {
+            get { return _type; }
+            set 
+            {
+                if (_type != value)
+                {
+                    _type = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("createdDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTime? CreatedDate
+        {
+            get { return _createdDate; }
+            set 
+            {
+                if (_createdDate != value)
+                {
+                    _createdDate = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+        
+        public static OrderDocumentDTO FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<OrderDocumentDTO>(data);
+        }
+    
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) 
+                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v9.0.0.0)")]
+    public partial class ExtensionDataDTO : System.ComponentModel.INotifyPropertyChanged
+    {
+        private string _name;
+        private string _value;
+    
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Name
+        {
+            get { return _name; }
+            set 
+            {
+                if (_name != value)
+                {
+                    _name = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Value
+        {
+            get { return _value; }
+            set 
+            {
+                if (_value != value)
+                {
+                    _value = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+        
+        public static ExtensionDataDTO FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<ExtensionDataDTO>(data);
+        }
+    
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) 
+                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v9.0.0.0)")]
+    public partial class OrderPaymentDTO : System.ComponentModel.INotifyPropertyChanged
+    {
+        private string _id;
+        private System.DateTime? _date;
+        private double? _amount;
+        private string _currencyCode;
+        private OrderPaymentDTOMethod? _method;
+    
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Id
+        {
+            get { return _id; }
+            set 
+            {
+                if (_id != value)
+                {
+                    _id = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("date", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTime? Date
+        {
+            get { return _date; }
+            set 
+            {
+                if (_date != value)
+                {
+                    _date = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("amount", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public double? Amount
+        {
+            get { return _amount; }
+            set 
+            {
+                if (_amount != value)
+                {
+                    _amount = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("currencyCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string CurrencyCode
+        {
+            get { return _currencyCode; }
+            set 
+            {
+                if (_currencyCode != value)
+                {
+                    _currencyCode = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("method", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public OrderPaymentDTOMethod? Method
+        {
+            get { return _method; }
+            set 
+            {
+                if (_method != value)
+                {
+                    _method = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+        
+        public static OrderPaymentDTO FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<OrderPaymentDTO>(data);
+        }
+    
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) 
+                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v9.0.0.0)")]
+    public partial class RegistrationDTO : System.ComponentModel.INotifyPropertyChanged
+    {
+        private string _id;
+        private string _firstName;
+        private string _lastName;
+        private string _email;
+        private string _orderId;
+    
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Id
+        {
+            get { return _id; }
+            set 
+            {
+                if (_id != value)
+                {
+                    _id = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("firstName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string FirstName
+        {
+            get { return _firstName; }
+            set 
+            {
+                if (_firstName != value)
+                {
+                    _firstName = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("lastName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LastName
+        {
+            get { return _lastName; }
+            set 
+            {
+                if (_lastName != value)
+                {
+                    _lastName = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Email
+        {
+            get { return _email; }
+            set 
+            {
+                if (_email != value)
+                {
+                    _email = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("orderId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OrderId
+        {
+            get { return _orderId; }
+            set 
+            {
+                if (_orderId != value)
+                {
+                    _orderId = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        public string ToJson() 
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+        
+        public static RegistrationDTO FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<RegistrationDTO>(data);
+        }
+    
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected virtual void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) 
+                handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v9.0.0.0)")]
+    public enum OrderItemDTOType
+    {
+        _0 = 0,
+    
+        _1 = 1,
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v9.0.0.0)")]
+    public enum OrderDocumentDTOType
+    {
+        _0 = 0,
+    
+        _1 = 1,
+    
+        _2 = 2,
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v9.0.0.0)")]
+    public enum OrderPaymentDTOMethod
+    {
+        _0 = 0,
+    
+        _1 = 1,
+    
+        _2 = 2,
+    
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.12.12.0 (NJsonSchema v9.10.13.0 (Newtonsoft.Json v9.0.0.0))")]

@@ -7,6 +7,9 @@ namespace OpenEvents.Backend.Model
     public class EventPriceDTO : IValidatableObject
     {
 
+        [Required]
+        public string Sku { get; set; }
+
         public DateTime BeginDate { get; set; }
 
         public DateTime EndDate { get; set; }

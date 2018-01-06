@@ -91,7 +91,8 @@ namespace OpenEvents.Admin.ViewModels
             {
                 BeginDate = Item.RegistrationBeginDate,
                 EndDate = Item.RegistrationEndDate,
-                CurrencyCode = "EUR"
+                CurrencyCode = "EUR",
+                Sku = Guid.NewGuid().ToString()
             });
         }
 
