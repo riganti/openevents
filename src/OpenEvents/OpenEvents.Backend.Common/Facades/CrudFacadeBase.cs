@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MongoDB.Driver;
 using OpenEvents.Backend.Common.Data;
+using OpenEvents.Backend.Common.Exceptions;
 
 namespace OpenEvents.Backend.Common.Facades
 {

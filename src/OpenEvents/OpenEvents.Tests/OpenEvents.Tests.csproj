@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="Moq" Version="4.8.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OpenEvents.Backend.Common\OpenEvents.Backend.Common.csproj" />
+    <ProjectReference Include="..\OpenEvents.Backend.Events\OpenEvents.Backend.Events.csproj" />
+    <ProjectReference Include="..\OpenEvents.Backend.Orders\OpenEvents.Backend.Orders.csproj" />
+    <ProjectReference Include="..\OpenEvents.Client.Common\OpenEvents.Client.Common.csproj" />
+    <ProjectReference Include="..\OpenEvents.Client.Events\OpenEvents.Client.Events.csproj" />
+    <ProjectReference Include="..\OpenEvents.Client.Orders\OpenEvents.Client.Orders.csproj" />
+  </ItemGroup>
+
+</Project>

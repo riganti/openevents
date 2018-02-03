@@ -9,7 +9,39 @@ namespace OpenEvents.Client
     #pragma warning disable // Disable all warnings
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.12.12.0 (NJsonSchema v9.10.13.0 (Newtonsoft.Json v10.0.0.0))")]
-    public partial class OrdersApi 
+    public partial interface IOrdersApi
+    {
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<OrderDTO>> ApiOrdersGetAsync(string searchText, string eventId);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<OrderDTO>> ApiOrdersGetAsync(string searchText, string eventId, System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<OrderDTO> ApiOrdersByEventIdPostAsync(string eventId, CreateOrderDTO order);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task<OrderDTO> ApiOrdersByEventIdPostAsync(string eventId, CreateOrderDTO order, System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<PriceDataDTO> ApiOrdersByEventIdCalculatePostAsync(string eventId, CalculateOrderDTO order);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task<PriceDataDTO> ApiOrdersByEventIdCalculatePostAsync(string eventId, CalculateOrderDTO order, System.Threading.CancellationToken cancellationToken);
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.12.12.0 (NJsonSchema v9.10.13.0 (Newtonsoft.Json v10.0.0.0))")]
+    public partial class OrdersApi : IOrdersApi
     {
         private string _baseUrl = "";
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;

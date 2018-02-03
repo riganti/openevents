@@ -12,8 +12,8 @@ namespace OpenEvents.Admin.ViewModels
 {
     public class OrderListViewModel : MasterPageViewModel
     {
-        private readonly OrdersApi ordersApi;
-        private readonly EventsApi eventsApi;
+        private readonly IOrdersApi ordersApi;
+        private readonly IEventsApi eventsApi;
 
         public override string CurrentSection => "Orders";
 
@@ -25,7 +25,7 @@ namespace OpenEvents.Admin.ViewModels
 
         public ObservableCollection<OrderDTO> Items { get; set; }
 
-        public OrderListViewModel(OrdersApi ordersApi, EventsApi eventsApi)
+        public OrderListViewModel(IOrdersApi ordersApi, IEventsApi eventsApi)
         {
             this.ordersApi = ordersApi;
             this.eventsApi = eventsApi;

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using OpenEvents.Backend.Common.Exceptions;
 
 namespace OpenEvents.Backend.Common.Filters
 {
@@ -10,22 +13,14 @@ namespace OpenEvents.Backend.Common.Filters
     {
         public override void OnException(ExceptionContext context)
         {
-            if (context.Exception is HttpResponseException ex)
+            if (context.Exception is ConflictException ex)
             {
-                if (ex.Content != null)
+                context.Result = new ContentResult()
                 {
-                    context.Result = new ObjectResult(ex.Content)
-                    {
-                        StatusCode = (int) ex.StatusCode
-                    };
-                }
-                else
-                {
-                    context.Result = new EmptyResultWithStatusCode()
-                    {
-                        StatusCode = (int)ex.StatusCode
-                    };
-                }
+                    StatusCode = (int)HttpStatusCode.Conflict,
+                    Content = ex.Message,
+                    ContentType = "text/plain"
+                };
             }
             else if (context.Exception is EntityNotFoundException)
             {

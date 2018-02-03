@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using OpenEvents.Backend.Common;
 using OpenEvents.Backend.Events.Data;
+using OpenEvents.Backend.Events.Exceptions;
 using OpenEvents.Backend.Events.Model;
 
 namespace OpenEvents.Backend.Events.Controllers
@@ -31,7 +32,7 @@ namespace OpenEvents.Backend.Events.Controllers
             var e = await eventsCollection.FindByIdAsync(eventId);
             if (e == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new EventNotFoundException();
             }
 
             var registrationList = await registrationListCollection.FindByIdAsync(eventId);
@@ -52,7 +53,7 @@ namespace OpenEvents.Backend.Events.Controllers
             var e = await eventsCollection.FindByIdAsync(eventId);
             if (e == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new EventNotFoundException();
             }
 
             var registrationList = await registrationListCollection.FindByIdAsync(eventId);
@@ -71,11 +72,11 @@ namespace OpenEvents.Backend.Events.Controllers
             var e = await eventsCollection.FindByIdAsync(eventId);
             if (e == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new EventNotFoundException();
             }
             if (e.Prices.Any())
             {
-                throw new HttpResponseException(HttpStatusCode.PaymentRequired);
+                throw new UnauthorizedAccessException("Cannot perform this operation for paid events!");
             }
 
             await registrationListCollection.ChangeOneSafeAsync(eventId, list =>
@@ -99,11 +100,11 @@ namespace OpenEvents.Backend.Events.Controllers
             var e = await eventsCollection.FindByIdAsync(eventId);
             if (e == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new EventNotFoundException();
             }
             if (e.Prices.Any())
             {
-                throw new HttpResponseException(HttpStatusCode.PaymentRequired);
+                throw new UnauthorizedAccessException("Cannot perform this operation for paid events!");
             }
 
             await registrationListCollection.ChangeOneSafeAsync(eventId, list =>
@@ -111,7 +112,7 @@ namespace OpenEvents.Backend.Events.Controllers
                 var index = list.Registrations.FindIndex(r => r.Id == registrationId);
                 if (index < 0)
                 {
-                    throw new HttpResponseException(HttpStatusCode.NotFound);
+                    throw new RegistrationNotFoundException();
                 }
                 list.Registrations.RemoveAt(index);
             });
@@ -125,7 +126,7 @@ namespace OpenEvents.Backend.Events.Controllers
             var e = await eventsCollection.FindByIdAsync(eventId);
             if (e == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new EventNotFoundException();
             }
             
             await registrationListCollection.ChangeOneSafeAsync(eventId, list =>

@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenEvents.Admin", "OpenEvents.Admin\OpenEvents.Admin.csproj", "{B439FD61-3101-4391-9C31-0B72979F86E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEvents.Backend.Orders", "OpenEvents.Backend.Orders\OpenEvents.Backend.Orders.csproj", "{1F3D1315-CA00-402A-81B7-BFD5A2676725}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenEvents.Backend.Orders", "OpenEvents.Backend.Orders\OpenEvents.Backend.Orders.csproj", "{1F3D1315-CA00-402A-81B7-BFD5A2676725}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{E6A68EC5-01C0-4A3F-8C6E-249C3DD8707F}"
 EndProject
@@ -13,19 +13,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{51
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{266CAC16-A4E1-4A14-B6F5-688FADED3115}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEvents.Backend.Events", "OpenEvents.Backend.Events\OpenEvents.Backend.Events.csproj", "{D7607AD5-2B26-4396-85B1-EC287B73C269}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenEvents.Backend.Events", "OpenEvents.Backend.Events\OpenEvents.Backend.Events.csproj", "{D7607AD5-2B26-4396-85B1-EC287B73C269}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEvents.Backend.Common", "OpenEvents.Backend.Common\OpenEvents.Backend.Common.csproj", "{D1BA427F-8133-4AB2-8D10-049316B04BAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenEvents.Backend.Common", "OpenEvents.Backend.Common\OpenEvents.Backend.Common.csproj", "{D1BA427F-8133-4AB2-8D10-049316B04BAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEvents.Client.Events", "OpenEvents.Client.Events\OpenEvents.Client.Events.csproj", "{7E85A181-6DEA-432D-8285-C5E856682C1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenEvents.Client.Events", "OpenEvents.Client.Events\OpenEvents.Client.Events.csproj", "{7E85A181-6DEA-432D-8285-C5E856682C1F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{AB62C9FC-DB4D-42E6-BBA2-51977A2E5ED9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenEvents.Tools.ClientGenerator", "OpenEvents.Tools.ClientGenerator\OpenEvents.Tools.ClientGenerator.csproj", "{C061956B-75DB-4B03-A4F2-F071371501FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEvents.Client.Orders", "OpenEvents.Client.Orders\OpenEvents.Client.Orders.csproj", "{EE25E713-7668-4613-BBAE-FFF9C4713178}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenEvents.Client.Orders", "OpenEvents.Client.Orders\OpenEvents.Client.Orders.csproj", "{EE25E713-7668-4613-BBAE-FFF9C4713178}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEvents.Client.Common", "OpenEvents.Client.Common\OpenEvents.Client.Common.csproj", "{307D672C-AF58-46C4-A15A-B703B157CDEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenEvents.Client.Common", "OpenEvents.Client.Common\OpenEvents.Client.Common.csproj", "{307D672C-AF58-46C4-A15A-B703B157CDEC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{ED87D787-DDCB-4A60-AFE9-AC5F8055EDB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEvents.Tests", "OpenEvents.Tests\OpenEvents.Tests.csproj", "{C59D0A91-B151-442E-B27B-99F13FF81155}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +69,10 @@ Global
 		{307D672C-AF58-46C4-A15A-B703B157CDEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{307D672C-AF58-46C4-A15A-B703B157CDEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{307D672C-AF58-46C4-A15A-B703B157CDEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C59D0A91-B151-442E-B27B-99F13FF81155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C59D0A91-B151-442E-B27B-99F13FF81155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C59D0A91-B151-442E-B27B-99F13FF81155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C59D0A91-B151-442E-B27B-99F13FF81155}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +86,7 @@ Global
 		{C061956B-75DB-4B03-A4F2-F071371501FB} = {AB62C9FC-DB4D-42E6-BBA2-51977A2E5ED9}
 		{EE25E713-7668-4613-BBAE-FFF9C4713178} = {266CAC16-A4E1-4A14-B6F5-688FADED3115}
 		{307D672C-AF58-46C4-A15A-B703B157CDEC} = {266CAC16-A4E1-4A14-B6F5-688FADED3115}
+		{C59D0A91-B151-442E-B27B-99F13FF81155} = {ED87D787-DDCB-4A60-AFE9-AC5F8055EDB5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4E49149B-96A6-4102-BFDA-EF2D33007E2C}

@@ -7,7 +7,7 @@ namespace OpenEvents.Backend.Orders.Model
     public class CalculateOrderDTO
     {
 
-        public CalculateAddressDTO Address { get; set; } = new CalculateAddressDTO();
+        public CalculateAddressDTO BillingAddress { get; set; } = new CalculateAddressDTO();
 
         public List<CalculateOrderItemDTO> OrderItems { get; set; } = new List<CalculateOrderItemDTO>();
 

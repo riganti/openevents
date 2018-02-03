@@ -12,9 +12,9 @@ namespace OpenEvents.Admin.ViewModels
 {
     public class EventDetailViewModel : MasterPageViewModel
     {
-        private readonly EventsApi client;
+        private readonly IEventsApi client;
 
-        public EventDetailViewModel(EventsApi client)
+        public EventDetailViewModel(IEventsApi client)
         {
             this.client = client;
         }

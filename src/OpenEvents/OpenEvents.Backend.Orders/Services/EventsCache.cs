@@ -9,9 +9,9 @@ namespace OpenEvents.Backend.Orders.Services
 {
     public class EventsCache : ObjectCache<EventDTO>
     {
-        private readonly EventsApi eventsApi;
+        private readonly IEventsApi eventsApi;
 
-        public EventsCache(EventsApi eventsApi)
+        public EventsCache(IEventsApi eventsApi)
         {
             this.eventsApi = eventsApi;
         }

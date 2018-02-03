@@ -69,7 +69,8 @@ namespace OpenEvents.Tools.ClientGenerator
                 {
                     Namespace = "OpenEvents.Client"
                 },
-                GenerateExceptionClasses = false
+                GenerateExceptionClasses = false,
+                GenerateClientInterfaces = true
             };
 
             var generator = new SwaggerToCSharpClientGenerator(document, settings);

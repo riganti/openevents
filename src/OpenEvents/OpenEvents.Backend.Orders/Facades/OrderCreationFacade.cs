@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MongoDB.Driver;
 using OpenEvents.Backend.Common;
+using OpenEvents.Backend.Common.Services;
 using OpenEvents.Backend.Orders.Data;
+using OpenEvents.Backend.Orders.Exceptions;
 using OpenEvents.Backend.Orders.Model;
+using OpenEvents.Backend.Orders.Queries;
 using OpenEvents.Backend.Orders.Services;
 using OpenEvents.Client;
 
@@ -16,31 +19,35 @@ namespace OpenEvents.Backend.Orders.Facades
     public class OrderCreationFacade
     {
         private readonly IMongoCollection<Order> collection;
+        private readonly Func<OrderNumbersQuery> orderNumbersQuery;
         private readonly OrderPriceCalculationFacade orderPriceCalculationFacade;
-        private readonly EventsApi eventsApi;
+        private readonly IDateTimeProvider dateTimeProvider;
+        private readonly IEventsApi eventsApi;
 
-        public OrderCreationFacade(IMongoCollection<Order> collection, OrderPriceCalculationFacade orderPriceCalculationFacade, EventsApi eventsApi)
+        public OrderCreationFacade(IMongoCollection<Order> collection, Func<OrderNumbersQuery> orderNumbersQuery, OrderPriceCalculationFacade orderPriceCalculationFacade, IDateTimeProvider dateTimeProvider, IEventsApi eventsApi)
         {
             this.collection = collection;
+            this.orderNumbersQuery = orderNumbersQuery;
             this.orderPriceCalculationFacade = orderPriceCalculationFacade;
+            this.dateTimeProvider = dateTimeProvider;
             this.eventsApi = eventsApi;
         }
 
         public async Task<OrderDTO> CreateOrder(EventDTO eventData, CreateOrderDTO order)
         {
             // validate
-            var now = DateTime.UtcNow;
+            var now = dateTimeProvider.Now;
             await ValidateEventAvailability(now, order, eventData);
             
             // create the order
             var orderData = Mapper.Map<Order>(order);
             InitializeOrder(eventData, orderData, now);
 
-            // assign order id
-            GenerateOrderNumber(orderData);
-
             // calculate prices
             CalculatePrices(eventData, orderData);
+
+            // assign order id
+            await GenerateOrderNumber(orderData);
 
             // save
             await collection.InsertOneAsync(orderData);
@@ -55,13 +62,13 @@ namespace OpenEvents.Backend.Orders.Facades
         {
             if (now < eventData.RegistrationBeginDate || now > eventData.RegistrationEndDate)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest, "Registration is closed!");
+                throw new RegistrationClosedException();
             }
 
             var count = await eventsApi.ApiRegistrationsByEventIdCountGetAsync(eventData.Id);
             if (count + order.OrderItems.Count > eventData.MaxAttendeeCount)
             {
-                throw new HttpResponseException(HttpStatusCode.Conflict, "Registration cap exceeded!");
+                throw new RegistrationCapExceededException();
             }
         }
 
@@ -73,10 +80,12 @@ namespace OpenEvents.Backend.Orders.Facades
             orderData.ETag = Guid.NewGuid().ToString();
         }
 
-        private void GenerateOrderNumber(Order orderData)
+        private async Task GenerateOrderNumber(Order orderData)
         {
-            var lastOrder = collection.AsQueryable().OrderByDescending(o => o.Id).FirstOrDefault();
-            orderData.Id = IncrementOrderNumber(orderData.CreatedDate, lastOrder?.Id);
+            var query = orderNumbersQuery();
+            var lastOrder = (await query.Execute()).FirstOrDefault();
+
+            orderData.Id = IncrementOrderNumber(orderData.CreatedDate, lastOrder);
         }
 
         private string IncrementOrderNumber(DateTime date, string id = "0000000000")

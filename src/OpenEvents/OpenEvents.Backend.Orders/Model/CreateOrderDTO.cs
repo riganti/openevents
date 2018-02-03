@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace OpenEvents.Backend.Orders.Model
 {
-    public class CreateOrderDTO
+    public class CreateOrderDTO : IValidatableObject
     {
         
         public AddressDTO BillingAddress { get; set; } = new AddressDTO();
@@ -15,5 +16,12 @@ namespace OpenEvents.Backend.Orders.Model
         
         public List<ExtensionDataDTO> ExtensionData { get; set; } = new List<ExtensionDataDTO>();
 
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (!OrderItems.Any())
+            {
+                yield return new ValidationResult("The order must have at least one item!", new [] { nameof(OrderItems) });
+            }
+        }
     }
 }

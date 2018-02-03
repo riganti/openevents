@@ -41,7 +41,7 @@ namespace OpenEvents.Backend.Orders
 
             services.AddSingleton<EventsCache>();
 
-            services.AddSingleton(provider => new EventsApi(Configuration.GetValue<string>("api:events")));
+            services.AddSingleton<IEventsApi>(provider => new EventsApi(Configuration.GetValue<string>("api:events")));
         }
     }
 }

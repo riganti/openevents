@@ -41,8 +41,8 @@ namespace OpenEvents.Admin
                 options.AddDefaultTempStorages("Temp");
             });
 
-            services.AddSingleton(provider => new EventsApi(Configuration.GetValue<string>("api:events")));
-            services.AddSingleton(provider => new OrdersApi(Configuration.GetValue<string>("api:orders")));
+            services.AddSingleton<IEventsApi>(provider => new EventsApi(Configuration.GetValue<string>("api:events")));
+            services.AddSingleton<IOrdersApi>(provider => new OrdersApi(Configuration.GetValue<string>("api:orders")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

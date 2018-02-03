@@ -9,7 +9,111 @@ namespace OpenEvents.Client
     #pragma warning disable // Disable all warnings
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.12.12.0 (NJsonSchema v9.10.13.0 (Newtonsoft.Json v10.0.0.0))")]
-    public partial class EventsApi 
+    public partial interface IEventsApi
+    {
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<EventDTO>> ApiEventsGetAsync();
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<EventDTO>> ApiEventsGetAsync(System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<EventDTO> ApiEventsPostAsync(EventDTO eventData);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task<EventDTO> ApiEventsPostAsync(EventDTO eventData, System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<EventBasicDTO>> ApiEventsBasicGetAsync();
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<EventBasicDTO>> ApiEventsBasicGetAsync(System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<EventDTO> ApiEventsByIdGetAsync(string id);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task<EventDTO> ApiEventsByIdGetAsync(string id, System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ApiEventsByIdPutAsync(string id, EventDTO eventData);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task ApiEventsByIdPutAsync(string id, EventDTO eventData, System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ApiEventsByIdDeleteAsync(string id);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task ApiEventsByIdDeleteAsync(string id, System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<RegistrationDTO>> ApiRegistrationsByEventIdGetAsync(string eventId);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<RegistrationDTO>> ApiRegistrationsByEventIdGetAsync(string eventId, System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<RegistrationDTO> ApiRegistrationsByEventIdPostAsync(string eventId, RegistrationDTO registration);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task<RegistrationDTO> ApiRegistrationsByEventIdPostAsync(string eventId, RegistrationDTO registration, System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<int> ApiRegistrationsByEventIdCountGetAsync(string eventId);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task<int> ApiRegistrationsByEventIdCountGetAsync(string eventId, System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task ApiRegistrationsByEventIdByRegistrationIdDeleteAsync(string eventId, string registrationId);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task ApiRegistrationsByEventIdByRegistrationIdDeleteAsync(string eventId, string registrationId, System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<RegistrationDTO>> ApiRegistrationsByEventIdBatchPostAsync(string eventId, System.Collections.Generic.IEnumerable<RegistrationDTO> registrations);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<RegistrationDTO>> ApiRegistrationsByEventIdBatchPostAsync(string eventId, System.Collections.Generic.IEnumerable<RegistrationDTO> registrations, System.Threading.CancellationToken cancellationToken);
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.12.12.0 (NJsonSchema v9.10.13.0 (Newtonsoft.Json v10.0.0.0))")]
+    public partial class EventsApi : IEventsApi
     {
         private string _baseUrl = "";
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;

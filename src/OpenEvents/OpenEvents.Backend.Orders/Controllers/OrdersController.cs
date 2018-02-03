@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using OpenEvents.Backend.Common;
 using OpenEvents.Backend.Orders.Data;
+using OpenEvents.Backend.Orders.Exceptions;
 using OpenEvents.Backend.Orders.Facades;
 using OpenEvents.Backend.Orders.Model;
 using OpenEvents.Backend.Orders.Services;

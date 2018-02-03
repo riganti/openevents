@@ -11,9 +11,9 @@ namespace OpenEvents.Admin.ViewModels
 {
     public class EventListViewModel : MasterPageViewModel
     {
-        private readonly EventsApi client;
+        private readonly IEventsApi client;
 
-        public EventListViewModel(EventsApi client)
+        public EventListViewModel(IEventsApi client)
         {
             this.client = client;
         }
