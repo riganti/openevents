@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DotVVM.Framework.ViewModel;
-using OpenEvents.Backend.Orders.Model;
+using OpenEvents.Admin.Model;
 using OpenEvents.Client;
 
 namespace OpenEvents.Admin.ViewModels

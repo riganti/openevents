@@ -7,13 +7,14 @@ using MongoDB.Driver;
 using OpenEvents.Backend.Common.Facades;
 using OpenEvents.Backend.Events.Data;
 using OpenEvents.Backend.Events.Model;
+using OpenEvents.Backend.Events.Queries;
 
 namespace OpenEvents.Backend.Events.Facades
 {
-    public class EventsFacade : CrudFacadeBase<Event, EventDTO>
+    public class EventsFacade : CrudFacadeBase<Event, EventDTO, EventFilterDTO>
     {
 
-        public EventsFacade(IMongoCollection<Event> collection) : base(collection)
+        public EventsFacade(IMongoCollection<Event> collection, Func<EventListQuery> queryFactory) : base(collection, queryFactory)
         {
         }
 
@@ -25,6 +26,6 @@ namespace OpenEvents.Backend.Events.Facades
                 .Select(Mapper.Map<EventBasicDTO>)
                 .ToList();
         }
-
+        
     }
 }

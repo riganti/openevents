@@ -33,9 +33,9 @@ namespace OpenEvents.Backend.Orders.Controllers
         }
 
         [HttpGet]
-        public async Task<List<OrderDTO>> GetList(string searchText = null, string eventId = null)
+        public async Task<List<OrderDTO>> GetList([FromQuery] OrderFilterDTO filter)
         {
-            return await ordersFacade.GetAll(searchText, eventId);
+            return await ordersFacade.GetAll(filter);
         }
 
 

@@ -82,8 +82,8 @@ namespace OpenEvents.Client
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/orders?");
-            if (searchText != null) urlBuilder_.Append("searchText=").Append(System.Uri.EscapeDataString(System.Convert.ToString(searchText, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            if (eventId != null) urlBuilder_.Append("eventId=").Append(System.Uri.EscapeDataString(System.Convert.ToString(eventId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (searchText != null) urlBuilder_.Append("SearchText=").Append(System.Uri.EscapeDataString(System.Convert.ToString(searchText, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (eventId != null) urlBuilder_.Append("EventId=").Append(System.Uri.EscapeDataString(System.Convert.ToString(eventId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             urlBuilder_.Length--;
     
             var client_ = new System.Net.Http.HttpClient();
@@ -878,6 +878,7 @@ namespace OpenEvents.Client
         }
     
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public OrderItemDTOType? Type
         {
             get { return _type; }
@@ -1132,6 +1133,7 @@ namespace OpenEvents.Client
         }
     
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public OrderDocumentDTOType? Type
         {
             get { return _type; }
@@ -1299,6 +1301,7 @@ namespace OpenEvents.Client
         }
     
         [Newtonsoft.Json.JsonProperty("method", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public OrderPaymentDTOMethod? Method
         {
             get { return _method; }
@@ -1425,7 +1428,8 @@ namespace OpenEvents.Client
         private string _email;
         private System.Collections.ObjectModel.ObservableCollection<ExtensionDataDTO> _extensionData;
     
-        [Newtonsoft.Json.JsonProperty("sku", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("sku", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
         public string Sku
         {
             get { return _sku; }
@@ -1439,7 +1443,8 @@ namespace OpenEvents.Client
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("firstName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("firstName", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
         public string FirstName
         {
             get { return _firstName; }
@@ -1453,7 +1458,8 @@ namespace OpenEvents.Client
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("lastName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("lastName", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
         public string LastName
         {
             get { return _lastName; }
@@ -1467,7 +1473,8 @@ namespace OpenEvents.Client
             }
         }
     
-        [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
         public string Email
         {
             get { return _email; }
@@ -1518,18 +1525,18 @@ namespace OpenEvents.Client
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v10.0.0.0)")]
     public partial class CalculateOrderDTO : System.ComponentModel.INotifyPropertyChanged
     {
-        private CalculateAddressDTO _address;
+        private CalculateAddressDTO _billingAddress;
         private System.Collections.ObjectModel.ObservableCollection<CalculateOrderItemDTO> _orderItems;
     
-        [Newtonsoft.Json.JsonProperty("address", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public CalculateAddressDTO Address
+        [Newtonsoft.Json.JsonProperty("billingAddress", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public CalculateAddressDTO BillingAddress
         {
-            get { return _address; }
+            get { return _billingAddress; }
             set 
             {
-                if (_address != value)
+                if (_billingAddress != value)
                 {
-                    _address = value; 
+                    _billingAddress = value; 
                     RaisePropertyChanged();
                 }
             }
@@ -1681,31 +1688,39 @@ namespace OpenEvents.Client
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum OrderItemDTOType
     {
-        _0 = 0,
+        [System.Runtime.Serialization.EnumMember(Value = "CancellationFee")]
+        CancellationFee = 0,
     
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = "EventPrice")]
+        EventPrice = 1,
     
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum OrderDocumentDTOType
     {
-        _0 = 0,
+        [System.Runtime.Serialization.EnumMember(Value = "ProformaInvoice")]
+        ProformaInvoice = 0,
     
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = "Invoice")]
+        Invoice = 1,
     
-        _2 = 2,
+        [System.Runtime.Serialization.EnumMember(Value = "CreditNote")]
+        CreditNote = 2,
     
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v10.0.0.0)")]
     public enum OrderPaymentDTOMethod
     {
-        _0 = 0,
+        [System.Runtime.Serialization.EnumMember(Value = "CreditCard")]
+        CreditCard = 0,
     
-        _1 = 1,
+        [System.Runtime.Serialization.EnumMember(Value = "Cash")]
+        Cash = 1,
     
-        _2 = 2,
+        [System.Runtime.Serialization.EnumMember(Value = "WireTransfer")]
+        WireTransfer = 2,
     
     }
 

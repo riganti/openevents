@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -15,6 +16,7 @@ using OpenEvents.Backend.Common.Configuration;
 using OpenEvents.Backend.Common.Filters;
 using OpenEvents.Backend.Common.Mappings;
 using OpenEvents.Backend.Common.Messaging;
+using OpenEvents.Backend.Common.Queries;
 using OpenEvents.Backend.Common.Services;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -59,12 +61,14 @@ namespace OpenEvents.Backend.Common
 
             ConfigureMongoCollections(services);
             ConfigureFacades(services);
+            ConfigureQueries(services);
             ConfigureAdditionalServices(services);
             ConfigurePublisherAndSubscriber(services);
 
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new Info() { Title = "Open Events API", Version = "v1" });
+                options.DescribeAllEnumsAsStrings();
             });
 
             ConfigureMappings();
@@ -82,6 +86,22 @@ namespace OpenEvents.Backend.Common
 
 
         protected abstract void ConfigureMongoCollections(IServiceCollection services);
+
+        protected virtual void ConfigureQueries(IServiceCollection services)
+        {
+            var queryTypes = GetType().Assembly.FindAllOpenGenericImplementations(typeof(IQuery<>));
+            foreach (var queryType in queryTypes)
+            {
+                services.AddTransient(queryType.Implementation);
+                
+                var factoryType = typeof(Func<>).MakeGenericType(queryType.Implementation);
+                var parameter = Expression.Parameter(typeof(IServiceProvider));
+                var inner = Expression.Call(parameter, nameof(IServiceProvider.GetService), null, Expression.Constant(queryType.Implementation));
+                var body = Expression.Lambda(factoryType, Expression.Convert(inner, queryType.Implementation));
+                var factory = Expression.Lambda(body, parameter).Compile();
+                services.AddSingleton(factoryType, (Func<IServiceProvider, object>)factory);
+            }
+        }
 
         protected abstract void ConfigureFacades(IServiceCollection services);
 

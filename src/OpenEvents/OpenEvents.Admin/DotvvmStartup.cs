@@ -30,8 +30,6 @@ namespace OpenEvents.Admin
             config.RouteTable.Add("EventDetail", "event/{id?}", "Views/EventDetail.dothtml");
             config.RouteTable.Add("OrderList", "orders", "Views/OrderList.dothtml");
             config.RouteTable.Add("OrderDetail", "order/{id?}", "Views/OrderDetail.dothtml");
-
-            //config.RouteTable.AutoDiscoverRoutes(new DefaultRouteStrategy(config));
         }
 
         private void ConfigureControls(DotvvmConfiguration config, string applicationPath)

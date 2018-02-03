@@ -24,9 +24,9 @@ namespace OpenEvents.Backend.Events.Controllers
         }
 
         [HttpGet]
-        public Task<List<EventDTO>> GetList()
+        public Task<List<EventDTO>> GetList([FromQuery] EventFilterDTO filter)
         {
-            return eventsFacade.GetAll();
+            return eventsFacade.GetAll(filter);
         }
 
         [HttpGet]

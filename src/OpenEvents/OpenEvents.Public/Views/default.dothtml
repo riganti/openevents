@@ -1,0 +1,55 @@
+﻿@viewModel OpenEvents.Public.ViewModels.DefaultViewModel, OpenEvents.Public
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="MainContent">
+
+    <bs:Row>
+        <bs:Column SizeMD="6">
+            <h2>Free Events</h2>
+
+            <dot:Repeater DataSource="{value: FreeEvents}">
+                <ItemTemplate>
+                    <bs:Panel>
+                        <HeaderTemplate>{{value: Title}}</HeaderTemplate>
+                        <ContentTemplate>
+                            <p>{{value: Description}}</p>
+
+                            <p class="text-right">
+                                <bs:RouteLink Text="Register" RouteName="RegisterFree" Param-Id="{value: Id}" />
+                            </p>
+                        </ContentTemplate>
+                    </bs:Panel>
+                </ItemTemplate>
+                <EmptyDataTemplate>
+                    <em>No free events found.</em>
+                </EmptyDataTemplate>
+            </dot:Repeater>
+
+        </bs:Column>
+
+        <bs:Column SizeMD="6">
+            <h2>Paid Events</h2>
+
+            <dot:Repeater DataSource="{value: PaidEvents}">
+                <ItemTemplate>
+                    <bs:Panel>
+                        <HeaderTemplate>{{value: Title}}</HeaderTemplate>
+                        <ContentTemplate>
+                            <p>{{value: Description}}</p>
+
+                            <p class="text-right">
+                                <bs:RouteLink Text="Register" RouteName="RegisterPaid" Param-Id="{value: Id}" />
+                            </p>
+                        </ContentTemplate>
+                    </bs:Panel>
+                </ItemTemplate>
+                <EmptyDataTemplate>
+                    <em>No paid events found.</em>
+                </EmptyDataTemplate>
+            </dot:Repeater>
+        </bs:Column>
+    </bs:Row>
+
+
+
+</dot:Content>

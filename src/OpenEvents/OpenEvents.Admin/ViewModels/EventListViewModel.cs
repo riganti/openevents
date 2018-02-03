@@ -25,7 +25,7 @@ namespace OpenEvents.Admin.ViewModels
 
         public override async Task PreRender()
         {
-            Items = await client.ApiEventsGetAsync();
+            Items = await client.ApiEventsGetAsync(EventType.All);
 
             await base.PreRender();
         }

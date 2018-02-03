@@ -1,0 +1,8 @@
+﻿@viewModel OpenEvents.Public.ViewModels.RegisterFreeViewModel, OpenEvents.Public
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="MainContent">
+
+
+</dot:Content>
+

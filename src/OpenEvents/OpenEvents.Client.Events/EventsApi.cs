@@ -13,12 +13,12 @@ namespace OpenEvents.Client
     {
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<EventDTO>> ApiEventsGetAsync();
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<EventDTO>> ApiEventsGetAsync(EventType eventType);
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<EventDTO>> ApiEventsGetAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<EventDTO>> ApiEventsGetAsync(EventType eventType, System.Threading.CancellationToken cancellationToken);
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
@@ -142,18 +142,23 @@ namespace OpenEvents.Client
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<EventDTO>> ApiEventsGetAsync()
+        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<EventDTO>> ApiEventsGetAsync(EventType eventType)
         {
-            return ApiEventsGetAsync(System.Threading.CancellationToken.None);
+            return ApiEventsGetAsync(eventType, System.Threading.CancellationToken.None);
         }
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<EventDTO>> ApiEventsGetAsync(System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<EventDTO>> ApiEventsGetAsync(EventType eventType, System.Threading.CancellationToken cancellationToken)
         {
+            if (eventType == null)
+                throw new System.ArgumentNullException("eventType");
+    
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/events");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/events?");
+            urlBuilder_.Append("EventType=").Append(System.Uri.EscapeDataString(System.Convert.ToString(eventType, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Length--;
     
             var client_ = new System.Net.Http.HttpClient();
             try
@@ -1578,6 +1583,20 @@ namespace OpenEvents.Client
             if (handler != null) 
                 handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
         }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v10.0.0.0)")]
+    public enum EventType
+    {
+        [System.Runtime.Serialization.EnumMember(Value = "All")]
+        All = 0,
+    
+        [System.Runtime.Serialization.EnumMember(Value = "Free")]
+        Free = 1,
+    
+        [System.Runtime.Serialization.EnumMember(Value = "Paid")]
+        Paid = 2,
+    
     }
 
 }
