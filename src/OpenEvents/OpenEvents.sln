@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEvents.Public", "OpenEv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEvents.Frontend.Common", "OpenEvents.Frontend.Common\OpenEvents.Frontend.Common.csproj", "{C9A70D4B-5721-4A91-ABB4-DAA80E415F85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEvents.Backend.Invoicing", "OpenEvents.Backend.Invoicing\OpenEvents.Backend.Invoicing.csproj", "{A9752360-AA5C-48A4-8550-0065CFC9526D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{C9A70D4B-5721-4A91-ABB4-DAA80E415F85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9A70D4B-5721-4A91-ABB4-DAA80E415F85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9A70D4B-5721-4A91-ABB4-DAA80E415F85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9752360-AA5C-48A4-8550-0065CFC9526D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9752360-AA5C-48A4-8550-0065CFC9526D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9752360-AA5C-48A4-8550-0065CFC9526D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9752360-AA5C-48A4-8550-0065CFC9526D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +107,7 @@ Global
 		{C59D0A91-B151-442E-B27B-99F13FF81155} = {ED87D787-DDCB-4A60-AFE9-AC5F8055EDB5}
 		{E08FB946-A96D-420A-A9E0-0A6A57A63690} = {51564A82-0291-4D72-ADEC-C7D16443454A}
 		{C9A70D4B-5721-4A91-ABB4-DAA80E415F85} = {51564A82-0291-4D72-ADEC-C7D16443454A}
+		{A9752360-AA5C-48A4-8550-0065CFC9526D} = {E6A68EC5-01C0-4A3F-8C6E-249C3DD8707F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4E49149B-96A6-4102-BFDA-EF2D33007E2C}

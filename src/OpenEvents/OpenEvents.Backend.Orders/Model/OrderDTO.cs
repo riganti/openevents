@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenEvents.Backend.Common.Data;
 
 namespace OpenEvents.Backend.Orders.Model
 {
-    public class OrderDTO
+    public class OrderDTO : IIdentifiable
     {
 
         public string Id { get; set; }

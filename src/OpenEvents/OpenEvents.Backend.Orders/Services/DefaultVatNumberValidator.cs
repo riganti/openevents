@@ -15,7 +15,7 @@ namespace OpenEvents.Backend.Orders.Services
 
         public bool IsValidVat(CalculateAddressDTO address)
         {
-            return cache.GetOrAdd((address.CountryCode, address.VatNumber), IsValidVatCore(address));
+            return cache.GetOrAdd((address.CountryCode, address.VatNumber), key => IsValidVatCore(address));
         }
 
         private static bool IsValidVatCore(CalculateAddressDTO address)

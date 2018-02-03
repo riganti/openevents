@@ -38,6 +38,13 @@ namespace OpenEvents.Backend.Orders.Controllers
             return await ordersFacade.GetAll(filter);
         }
 
+        [HttpGet]
+        [Route("{orderId}")]
+        public async Task<OrderDTO> GetById(string orderId)
+        {
+            return await ordersFacade.GetById(orderId);
+        }
+
 
         [HttpPost]
         [Route("{eventId}")]

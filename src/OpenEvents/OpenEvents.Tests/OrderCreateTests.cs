@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
 using Moq;
+using OpenEvents.Backend.Common.Messaging;
+using OpenEvents.Backend.Common.Messaging.Contracts;
 using OpenEvents.Backend.Common.Services;
 using OpenEvents.Backend.Orders.Data;
 using OpenEvents.Backend.Orders.Exceptions;
@@ -41,8 +43,10 @@ namespace OpenEvents.Tests
             var orderNumbersQuery = new Mock<OrderNumbersQuery>(ordersCollection.Object);
             orderNumbersQuery.Setup(q => q.Execute()).Returns(Task.FromResult<IList<string>>(new List<string>() { "2018000001" }));
 
+            var orderCreatedPublisher = new Mock<IPublisher<OrderCreated>>();
+
             var priceCalculationFacade = new OrderPriceCalculationFacade(vatRateProvider.Object, vatNumberValidator.Object, dateTimeProvider.Object);
-            return new OrderCreationFacade(ordersCollection.Object, () => orderNumbersQuery.Object, priceCalculationFacade, dateTimeProvider.Object, eventsApi.Object);
+            return new OrderCreationFacade(ordersCollection.Object, () => orderNumbersQuery.Object, priceCalculationFacade, orderCreatedPublisher.Object, dateTimeProvider.Object, eventsApi.Object);
         }
 
 

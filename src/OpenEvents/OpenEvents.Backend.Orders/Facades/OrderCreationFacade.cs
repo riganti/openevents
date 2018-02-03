@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MongoDB.Driver;
 using OpenEvents.Backend.Common;
+using OpenEvents.Backend.Common.Messaging;
+using OpenEvents.Backend.Common.Messaging.Contracts;
 using OpenEvents.Backend.Common.Services;
 using OpenEvents.Backend.Orders.Data;
 using OpenEvents.Backend.Orders.Exceptions;
@@ -21,14 +23,16 @@ namespace OpenEvents.Backend.Orders.Facades
         private readonly IMongoCollection<Order> collection;
         private readonly Func<OrderNumbersQuery> orderNumbersQuery;
         private readonly OrderPriceCalculationFacade orderPriceCalculationFacade;
+        private readonly IPublisher<OrderCreated> orderCreatedPublisher;
         private readonly IDateTimeProvider dateTimeProvider;
         private readonly IEventsApi eventsApi;
 
-        public OrderCreationFacade(IMongoCollection<Order> collection, Func<OrderNumbersQuery> orderNumbersQuery, OrderPriceCalculationFacade orderPriceCalculationFacade, IDateTimeProvider dateTimeProvider, IEventsApi eventsApi)
+        public OrderCreationFacade(IMongoCollection<Order> collection, Func<OrderNumbersQuery> orderNumbersQuery, OrderPriceCalculationFacade orderPriceCalculationFacade, IPublisher<OrderCreated> orderCreatedPublisher, IDateTimeProvider dateTimeProvider, IEventsApi eventsApi)
         {
             this.collection = collection;
             this.orderNumbersQuery = orderNumbersQuery;
             this.orderPriceCalculationFacade = orderPriceCalculationFacade;
+            this.orderCreatedPublisher = orderCreatedPublisher;
             this.dateTimeProvider = dateTimeProvider;
             this.eventsApi = eventsApi;
         }
@@ -54,6 +58,9 @@ namespace OpenEvents.Backend.Orders.Facades
             
             // create registrations
             await CreateRegistrations(eventData, order, orderData);
+
+            // publish message
+            await orderCreatedPublisher.PublishEvent(new OrderCreated() { OrderId = orderData.Id });
 
             return Mapper.Map<OrderDTO>(orderData);
         }

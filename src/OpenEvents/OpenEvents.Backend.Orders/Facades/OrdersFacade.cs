@@ -6,30 +6,20 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using OpenEvents.Backend.Common.Facades;
+using OpenEvents.Backend.Common.Queries;
 using OpenEvents.Backend.Orders.Data;
 using OpenEvents.Backend.Orders.Model;
 using OpenEvents.Backend.Orders.Queries;
 
 namespace OpenEvents.Backend.Orders.Facades
 {
-    public class OrdersFacade
+    public class OrdersFacade : CrudFacadeBase<Order, OrderDTO, OrderFilterDTO>
     {
-        private readonly IMongoCollection<Order> collection;
-        private readonly Func<OrderListQuery> queryFactory;
-
-        public OrdersFacade(IMongoCollection<Order> collection, Func<OrderListQuery> queryFactory)
-        {
-            this.collection = collection;
-            this.queryFactory = queryFactory;
-        }
-
-        public async Task<List<OrderDTO>> GetAll(OrderFilterDTO filter)
-        {
-            var query = queryFactory();
-            query.Filter = filter;
-            return (await query.Execute()).ToList();
-        }
         
+        public OrdersFacade(IMongoCollection<Order> collection, Func<OrderListQuery> queryFactory) : base(collection, queryFactory)
+        {
+        }
 
     }
 }
