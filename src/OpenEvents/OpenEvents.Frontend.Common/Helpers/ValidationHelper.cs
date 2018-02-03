@@ -8,7 +8,7 @@ using DotVVM.Framework.ViewModel.Validation;
 using Newtonsoft.Json;
 using OpenEvents.Client;
 
-namespace OpenEvents.Admin.Helpers
+namespace OpenEvents.Frontend.Common.Helpers
 {
     public static class ValidationHelper
     {
@@ -19,7 +19,7 @@ namespace OpenEvents.Admin.Helpers
             {
                 await apiCall();
             }
-            catch (SwaggerException ex) when (ex.StatusCode == "400")
+            catch (SwaggerException ex) when (ex.StatusCode == "400" || ex.StatusCode == "409")
             {
                 HandleValidation(context, ex);
             }
@@ -31,7 +31,7 @@ namespace OpenEvents.Admin.Helpers
             {
                 return await apiCall();
             }
-            catch (SwaggerException ex) when (ex.StatusCode == "400")
+            catch (SwaggerException ex) when (ex.StatusCode == "400" || ex.StatusCode == "409")
             {
                 HandleValidation(context, ex);
                 return default(T);
@@ -40,7 +40,7 @@ namespace OpenEvents.Admin.Helpers
 
         private static void HandleValidation(IDotvvmRequestContext context, SwaggerException ex)
         {
-            var invalidProperties = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(ex.Response);
+            var invalidProperties = ParseResponse(ex);
 
             foreach (var property in invalidProperties)
             {
@@ -51,6 +51,21 @@ namespace OpenEvents.Admin.Helpers
             }
 
             context.FailOnInvalidModelState();
+        }
+
+        private static Dictionary<string, string[]> ParseResponse(SwaggerException ex)
+        {
+            if (ex.Headers.TryGetValue("Content-Type", out var contentType) && contentType.Contains("application/json"))
+            {
+                return JsonConvert.DeserializeObject<Dictionary<string, string[]>>(ex.Response);
+            }
+            else
+            {
+                return new Dictionary<string, string[]>()
+                {
+                    { "", new[] { ex.Response } }
+                };
+            }
         }
 
         private static string ConvertPropertyName(string property)

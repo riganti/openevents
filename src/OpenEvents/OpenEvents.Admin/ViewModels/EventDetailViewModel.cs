@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DotVVM.Framework.ViewModel;
-using OpenEvents.Admin.Helpers;
 using OpenEvents.Client;
+using OpenEvents.Frontend.Common.Helpers;
 
 namespace OpenEvents.Admin.ViewModels
 {

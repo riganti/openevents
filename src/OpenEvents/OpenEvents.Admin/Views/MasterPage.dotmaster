@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <title>OpenEvents.Admin</title>
 </head>
-<body Validator.InvalidCssClass="has-error">
+<body Validator.InvalidCssClass="has-error" Validator.SetToolTipText="true">
 
     <div class="layout-header">
         <h1>Open Events</h1>

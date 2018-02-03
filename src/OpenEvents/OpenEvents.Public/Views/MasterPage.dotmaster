@@ -8,11 +8,12 @@
 
     <dot:RequiredResource Name="bootstrap" />
 </head>
-<body>
+<body Validator.InvalidCssClass="has-error" Validator.SetToolTipText="true">
 
- 	<h1>Open Events Portal</h1>
+    <bs:Container>
+        <h1>Open Events Portal</h1>
 
-	<dot:ContentPlaceHolder ID="MainContent" />
-
+        <dot:ContentPlaceHolder ID="MainContent" />
+    </bs:Container>
 </body>
 </html>

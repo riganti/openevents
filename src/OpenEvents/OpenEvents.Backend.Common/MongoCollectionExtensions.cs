@@ -30,6 +30,7 @@ namespace OpenEvents.Backend.Common
                     if (item == null)
                     {
                         item = new T();
+                        item.Id = id;
                         isNew = true;
                     }
 

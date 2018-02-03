@@ -3,6 +3,144 @@
 
 <dot:Content ContentPlaceHolderID="MainContent">
 
+    <bs:Row>
+        <bs:Column SizeMD="6">
+
+            <bs:Panel>
+                <HeaderTemplate>Billing Address</HeaderTemplate>
+                <ContentTemplate>
+
+                    <bs:Form DataContext="{value: Order.BillingAddress}">
+                        <bs:TextBoxGroup LabelText="Name / Company" Text="{value: Name}" Validator.Value="{value: Name}" />
+                        <bs:TextBoxGroup LabelText="Street" Text="{value: Street}" Validator.Value="{value: Street}" />
+                        <bs:TextBoxGroup LabelText="City" Text="{value: City}" Validator.Value="{value: City}" />
+                        <bs:TextBoxGroup LabelText="ZIP" Text="{value: Zip}" Validator.Value="{value: Zip}" />
+                        <bs:TextBoxGroup LabelText="State" Text="{value: State}" />
+                        <bs:ComboBoxGroup LabelText="Country" DataSource="{value: _root.Countries}" DisplayMember="Name" ValueMember="Code" SelectedValue="{value: CountryCode}"
+                                          Validation.Enabled="false" SelectionChanged="{command: _root.Recalculate()}" />
+                    </bs:Form>
+
+                </ContentTemplate>
+            </bs:Panel>
+
+        </bs:Column>
+        <bs:Column SizeMD="6">
+
+            <bs:Panel>
+                <HeaderTemplate>Contact Information</HeaderTemplate>
+                <ContentTemplate>
+
+                    <bs:Form DataContext="{value: Order.BillingAddress}">
+                        <bs:TextBoxGroup LabelText="Contact E-mail" Text="{value: ContactEmail}" Validator.Value="{value: ContactEmail}"  />
+                        <bs:TextBoxGroup LabelText="Contact Phone" Text="{value: ContactPhone}" Validator.Value="{value: ContactPhone}" />
+                    </bs:Form>
+
+                </ContentTemplate>
+            </bs:Panel>
+
+            <bs:Panel>
+                <HeaderTemplate>Company Information</HeaderTemplate>
+                <ContentTemplate>
+
+                    <bs:Form DataContext="{value: Order.BillingAddress}">
+                        <bs:TextBoxGroup LabelText="Reg. Number" Text="{value: CompanyRegistrationNumber}" />
+                        <bs:TextBoxGroup LabelText="EU VAT Number" Text="{value: VatNumber}" />
+                    </bs:Form>
+
+                </ContentTemplate>
+            </bs:Panel>
+
+            <bs:Panel>
+                <HeaderTemplate>Additional Information</HeaderTemplate>
+                <ContentTemplate>
+
+                    <bs:Form DataContext="{value: Order.CustomerData}">
+                        <bs:TextBoxGroup LabelText="Your Order Number" Text="{value: OrderNumber}" />
+                        <bs:TextBoxGroup LabelText="Additional Notes" Text="{value: Notes}" Type="MultiLine" />
+                    </bs:Form>
+
+                </ContentTemplate>
+            </bs:Panel>
+
+        </bs:Column>
+    </bs:Row>
+
+    <bs:Row>
+        <bs:Column SizeLG="12">
+            <bs:Panel>
+                <HeaderTemplate>Attendees</HeaderTemplate>
+                <ContentTemplate>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>E-mail Address</th>
+                                <th>Admission</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <dot:Repeater DataSource="{value: Order.OrderItems}" WrapperTagName="tbody">
+                            <tr>
+                                <td Validator.Value="{value: FirstName}">
+                                    <dot:TextBox Text="{value: FirstName}" class="form-control" />
+                                </td>
+                                <td Validator.Value="{value: LastName}">
+                                    <dot:TextBox Text="{value: LastName}" class="form-control" />
+                                </td>
+                                <td Validator.Value="{value: Email}">
+                                    <dot:TextBox Text="{value: Email}" class="form-control" />
+                                </td>
+                                <td>
+                                    <dot:ComboBox DataSource="{value: _root.EventPrices}" DisplayMember="Title" ValueMember="Sku" SelectedValue="{value: Sku}" class="form-control" 
+                                                  Validation.Enabled="false" SelectionChanged="{command: _root.Recalculate()}" />
+                                </td>
+                                <td>
+                                    <dot:LinkButton Click="{command: _root.RemoveAttendee(_this)}" Validation.Enabled="false" Visible="{value: _root.Order.OrderItems.Count > 1}">
+                                        <bs:GlyphIcon Icon="Remove" />
+                                    </dot:LinkButton>
+                                </td>
+                            </tr>
+                        </dot:Repeater>
+                    </table>
+
+                    <p>
+                        <bs:LinkButton Click="{command: _root.AddAttendee()}" Validation.Enabled="false">
+                            <bs:GlyphIcon Icon="Plus" /> Add Attendee
+                        </bs:LinkButton>
+                    </p>
+
+                </ContentTemplate>
+            </bs:Panel>
+        </bs:Column>
+    </bs:Row>
+
+
+    <bs:Row>
+        <bs:Column SizeLG="12">
+            <bs:Panel>
+                <HeaderTemplate>Price</HeaderTemplate>
+                <ContentTemplate>
+
+                    <p>
+                        Total price: <strong><dot:Literal Text="{value: TotalPrice}" /></strong>
+                    </p>
+                    <p>
+                        Total price incl. VAT: <strong><dot:Literal Text="{value: TotalPriceInclVat}" /></strong>
+                    </p>
+
+                    <dot:ValidationSummary IncludeErrorsFromChildren="true" class="alert alert-danger" />
+
+                    <p class="text-right">
+                        <bs:Button Text="Submit Order" Click="{command: _root.SubmitOrder()}" Type="Primary" Validation.Target="{value: Order}" />
+                    </p>
+
+                </ContentTemplate>
+            </bs:Panel>
+        </bs:Column>
+    </bs:Row>
+
 
 </dot:Content>
 

@@ -83,12 +83,12 @@ namespace OpenEvents.Backend.Orders.Facades
         private async Task GenerateOrderNumber(Order orderData)
         {
             var query = orderNumbersQuery();
-            var lastOrder = (await query.Execute()).FirstOrDefault();
+            var lastOrderNumber = (await query.Execute()).FirstOrDefault();
 
-            orderData.Id = IncrementOrderNumber(orderData.CreatedDate, lastOrder);
+            orderData.Id = IncrementOrderNumber(orderData.CreatedDate, lastOrderNumber ?? "0000000000");
         }
 
-        private string IncrementOrderNumber(DateTime date, string id = "0000000000")
+        private string IncrementOrderNumber(DateTime date, string id)
         {
             var number = Convert.ToInt32(id.Substring(4));
             return $"{date:yyyy}{number + 1:000000}";

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,13 +10,22 @@ namespace OpenEvents.Backend.Orders.Services
 {
     public class DefaultVatNumberValidator : IVatNumberValidator
     {
+
+        private readonly ConcurrentDictionary<(string countryCode, string vatNumber), bool> cache = new ConcurrentDictionary<(string countryCode, string vatNumber), bool>();
+
         public bool IsValidVat(CalculateAddressDTO address)
+        {
+            return cache.GetOrAdd((address.CountryCode, address.VatNumber), IsValidVatCore(address));
+        }
+
+        private static bool IsValidVatCore(CalculateAddressDTO address)
         {
             var vat = address.VatNumber;
             if (string.IsNullOrEmpty(vat))
             {
                 return true;
             }
+
             vat = string.Concat(vat.Where(char.IsLetterOrDigit).ToArray());
 
             // parse the number
@@ -55,7 +65,6 @@ namespace OpenEvents.Backend.Orders.Services
             }
 
             return false;
-
         }
 
         public class CookieAwareWebClient : WebClient

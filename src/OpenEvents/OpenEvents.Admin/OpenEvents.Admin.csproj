@@ -38,5 +38,9 @@
     <ItemGroup>
       <ProjectReference Include="..\OpenEvents.Client.Events\OpenEvents.Client.Events.csproj" />
       <ProjectReference Include="..\OpenEvents.Client.Orders\OpenEvents.Client.Orders.csproj" />
+      <ProjectReference Include="..\OpenEvents.Frontend.Common\OpenEvents.Frontend.Common.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Helpers\" />
     </ItemGroup>
 </Project>
