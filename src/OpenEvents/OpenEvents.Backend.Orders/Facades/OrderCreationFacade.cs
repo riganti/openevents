@@ -68,6 +68,7 @@ namespace OpenEvents.Backend.Orders.Facades
         private void InitializeOrder(EventDTO eventData, Order orderData, DateTime now)
         {
             orderData.EventId = eventData.Id;
+            orderData.EventTitle = eventData.Title;
             orderData.CreatedDate = now;
             orderData.ETag = Guid.NewGuid().ToString();
         }

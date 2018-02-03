@@ -14,6 +14,7 @@ namespace OpenEvents.Backend.Events.Mappings
         public void Configure(IMapperConfigurationExpression mapper)
         {
             mapper.CreateMap<Event, EventDTO>();
+            mapper.CreateMap<Event, EventBasicDTO>();
             mapper.CreateMap<EventCancellationPolicy, EventCancellationPolicyDTO>();
             mapper.CreateMap<EventDate, EventDateDTO>();
             mapper.CreateMap<EventPrice, EventPriceDTO>();

@@ -22,6 +22,8 @@
         <None Remove="Views\EventDetail.dothtml" />
         <None Remove="Views\EventList.dothtml" />
         <None Remove="Views\MasterPage.dotmaster" />
+        <None Remove="Views\OrderDetail.dothtml" />
+        <None Remove="Views\OrderList.dothtml" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="DotVVM.Controls.Bootstrap" Version="1.1.7" />

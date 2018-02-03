@@ -14,6 +14,8 @@ namespace OpenEvents.Backend.Orders.Data
 
         public string EventId { get; set; }
 
+        public string EventTitle { get; set; }
+
         public DateTime CreatedDate { get; set; }
 
         public Address BillingAddress { get; set; }

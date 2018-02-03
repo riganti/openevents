@@ -32,10 +32,9 @@ namespace OpenEvents.Backend.Orders.Controllers
         }
 
         [HttpGet]
-        [Route("{eventId}")]
-        public async Task<List<OrderDTO>> GetList(string eventId)
+        public async Task<List<OrderDTO>> GetList(string searchText = null, string eventId = null)
         {
-            return await ordersFacade.GetAllByEvent(eventId);
+            return await ordersFacade.GetAll(searchText, eventId);
         }
 
 

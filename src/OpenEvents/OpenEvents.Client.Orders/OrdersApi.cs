@@ -38,22 +38,21 @@ namespace OpenEvents.Client
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<OrderDTO>> ApiOrdersByEventIdGetAsync(string eventId)
+        public System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<OrderDTO>> ApiOrdersGetAsync(string searchText, string eventId)
         {
-            return ApiOrdersByEventIdGetAsync(eventId, System.Threading.CancellationToken.None);
+            return ApiOrdersGetAsync(searchText, eventId, System.Threading.CancellationToken.None);
         }
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<OrderDTO>> ApiOrdersByEventIdGetAsync(string eventId, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<OrderDTO>> ApiOrdersGetAsync(string searchText, string eventId, System.Threading.CancellationToken cancellationToken)
         {
-            if (eventId == null)
-                throw new System.ArgumentNullException("eventId");
-    
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/orders/{eventId}");
-            urlBuilder_.Replace("{eventId}", System.Uri.EscapeDataString(System.Convert.ToString(eventId, System.Globalization.CultureInfo.InvariantCulture)));
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/orders?");
+            if (searchText != null) urlBuilder_.Append("searchText=").Append(System.Uri.EscapeDataString(System.Convert.ToString(searchText, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            if (eventId != null) urlBuilder_.Append("eventId=").Append(System.Uri.EscapeDataString(System.Convert.ToString(eventId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            urlBuilder_.Length--;
     
             var client_ = new System.Net.Http.HttpClient();
             try
@@ -288,6 +287,7 @@ namespace OpenEvents.Client
     {
         private string _id;
         private string _eventId;
+        private string _eventTitle;
         private System.DateTime? _createdDate;
         private AddressDTO _billingAddress;
         private OrderCustomerDataDTO _customerData;
@@ -322,6 +322,20 @@ namespace OpenEvents.Client
                 if (_eventId != value)
                 {
                     _eventId = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("eventTitle", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string EventTitle
+        {
+            get { return _eventTitle; }
+            set 
+            {
+                if (_eventTitle != value)
+                {
+                    _eventTitle = value; 
                     RaisePropertyChanged();
                 }
             }

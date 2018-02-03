@@ -11,6 +11,8 @@ namespace OpenEvents.Backend.Orders.Model
 
         public string EventId { get; set; }
 
+        public string EventTitle { get; set; }
+
         public DateTime CreatedDate { get; set; }
 
         public AddressDTO BillingAddress { get; set; } = new AddressDTO();

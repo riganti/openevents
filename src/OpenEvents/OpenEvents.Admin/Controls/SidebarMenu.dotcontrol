@@ -10,4 +10,8 @@
         <bs:GlyphIcon Icon="Calendar" /> Events
     </bs:ListGroupItem>
 
+    <bs:ListGroupItem RouteName="OrderList" IsSelected="{value: CurrentSection == "Orders"}">
+        <bs:GlyphIcon Icon="List" /> Orders
+    </bs:ListGroupItem>
+
 </bs:ListGroup>

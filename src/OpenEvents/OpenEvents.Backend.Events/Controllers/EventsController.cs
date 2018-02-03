@@ -30,6 +30,13 @@ namespace OpenEvents.Backend.Events.Controllers
         }
 
         [HttpGet]
+        [Route("basic")]
+        public Task<List<EventBasicDTO>> GetBasicList()
+        {
+            return eventsFacade.GetAllBasic();
+        }
+
+        [HttpGet]
         [Route("{id}")]
         public Task<EventDTO> Get(string id)
         {

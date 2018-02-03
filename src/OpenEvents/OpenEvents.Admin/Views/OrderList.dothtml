@@ -1,0 +1,48 @@
+﻿@viewModel OpenEvents.Admin.ViewModels.OrderListViewModel, OpenEvents.Admin
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="MainContent">
+
+    <div class="layout-content-title">
+        <h2>Orders</h2>
+    </div>
+
+    <div class="layout-content-body">
+
+        <bs:Form Type="Inline" DataContext="{value: Filter}">
+            <bs:TextBoxGroup LabelText="Name / E-mail" Text="{value: SearchText}" />
+            <bs:ComboBoxGroup LabelText="Event" DataSource="{value: _root.Events}" DisplayMember="Title" ValueMember="Id" SelectedValue="{value: EventId}" />
+
+            <bs:FormGroup LabelText=" ">
+                <bs:Button Type="Primary" IsSubmitButton="true" Click="{command: null}" ButtonTagName="button">
+                    <bs:GlyphIcon Icon="Search" /> Search
+                </bs:Button>
+            </bs:FormGroup>
+        </bs:Form>
+
+        <dot:GridView DataSource="{value: Items}" class="table table-bordered">
+            <Columns>
+
+                <dot:GridViewTextColumn HeaderText="Customer" ValueBinding="{value: BillingAddress.Name}" />
+                <dot:GridViewTextColumn HeaderText="Event" ValueBinding="{value: EventTitle}" />
+                <dot:GridViewTextColumn HeaderText="Reg. Date" ValueBinding="{value: CreatedDate}" FormatString="d" />
+                <dot:GridViewTextColumn HeaderText="Attendees" ValueBinding="{value: OrderItems.Count}" />
+                <dot:GridViewTextColumn HeaderText="Price" ValueBinding="{value: TotalPrice.Price}" FormatString="n0" />
+                <dot:GridViewTextColumn HeaderText="Currency" ValueBinding="{value: TotalPrice.CurrencyCode}" />
+                <dot:GridViewTextColumn HeaderText="Paid" ValueBinding="{value: PaymentData.PaidDate}" FormatString="d" />
+
+                <dot:GridViewTemplateColumn>
+                    <dot:RouteLink RouteName="OrderDetail" Param-id="{value: Id}">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </dot:RouteLink>
+                </dot:GridViewTemplateColumn>
+
+            </Columns>
+            <EmptyDataTemplate>
+                <em>No orders have been created yet.</em>
+            </EmptyDataTemplate>
+        </dot:GridView>
+
+    </div>
+
+</dot:Content>

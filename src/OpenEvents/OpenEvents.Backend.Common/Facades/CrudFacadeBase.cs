@@ -11,13 +11,12 @@ namespace OpenEvents.Backend.Common.Facades
     public class CrudFacadeBase<TEntity, TDTO> where TEntity : IIdentifiable where TDTO : IIdentifiable
     {
 
-        private readonly IMongoCollection<TEntity> collection;
+        protected readonly IMongoCollection<TEntity> collection;
 
         public CrudFacadeBase(IMongoCollection<TEntity> collection)
         {
             this.collection = collection;
         }
-
 
         public async Task<List<TDTO>> GetAll()
         {
