@@ -120,7 +120,7 @@ namespace OpenEvents.Backend.Common
             var publisherTypes = GetType().Assembly.FindAllOpenGenericImplementations(typeof(IPublisher<>));
             foreach (var publisherType in publisherTypes)
             {
-                services.AddSingleton(publisherType.Implementation);
+                services.AddSingleton(publisherType.Interface, publisherType.Implementation);
             }
 
             var subscriberTypes = GetType().Assembly.FindAllOpenGenericImplementations(typeof(ISubscription<>));

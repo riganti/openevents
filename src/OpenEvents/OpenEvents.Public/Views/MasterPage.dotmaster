@@ -12,7 +12,7 @@
 
     <bs:Container>
         <h1>Open Events Portal</h1>
-
+        
         <dot:ContentPlaceHolder ID="MainContent" />
     </bs:Container>
 </body>

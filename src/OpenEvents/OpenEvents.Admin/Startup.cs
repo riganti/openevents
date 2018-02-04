@@ -43,6 +43,7 @@ namespace OpenEvents.Admin
 
             services.AddSingleton<IEventsApi>(provider => new EventsApi(Configuration.GetValue<string>("api:events")));
             services.AddSingleton<IOrdersApi>(provider => new OrdersApi(Configuration.GetValue<string>("api:orders")));
+            services.AddSingleton<IMailingApi>(provider => new MailingApi(Configuration.GetValue<string>("api:mailing")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

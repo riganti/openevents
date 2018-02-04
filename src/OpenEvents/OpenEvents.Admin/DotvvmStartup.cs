@@ -28,8 +28,12 @@ namespace OpenEvents.Admin
 
             config.RouteTable.Add("EventList", "events", "Views/EventList.dothtml");
             config.RouteTable.Add("EventDetail", "event/{id?}", "Views/EventDetail.dothtml");
+
             config.RouteTable.Add("OrderList", "orders", "Views/OrderList.dothtml");
             config.RouteTable.Add("OrderDetail", "order/{id?}", "Views/OrderDetail.dothtml");
+
+            config.RouteTable.Add("MailTemplateList", "mailtemplates", "Views/MailTemplateList.dothtml");
+            config.RouteTable.Add("MailTemplateDetail", "mailtemplate/{id?}", "Views/MailTemplateDetail.dothtml");
         }
 
         private void ConfigureControls(DotvvmConfiguration config, string applicationPath)

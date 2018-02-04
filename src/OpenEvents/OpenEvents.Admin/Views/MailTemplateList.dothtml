@@ -1,0 +1,50 @@
+﻿@viewModel OpenEvents.Admin.ViewModels.MailTemplateListViewModel, OpenEvents.Admin
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="MainContent">
+
+    <div class="layout-content-title">
+        <div class="pull-right">
+            <dot:RouteLink RouteName="MailTemplateDetail" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus"></span> New Mail Template
+            </dot:RouteLink>
+        </div>
+
+        <h2>Mail Templates</h2>
+    </div>
+
+    <div class="layout-content-body">
+
+        <dot:GridView DataSource="{value: Items}" class="table table-bordered">
+            <Columns>
+                <dot:GridViewTextColumn HeaderText="Intent" ValueBinding="{value: MailIntent}" />
+                <dot:GridViewTextColumn HeaderText="Event" ValueBinding="{value: EventTitle}" />
+                <dot:GridViewTextColumn HeaderText="Language" ValueBinding="{value: LanguageCode}" />
+                <dot:GridViewTextColumn HeaderText="Subject" ValueBinding="{value: Subject}" />
+
+                <dot:GridViewTemplateColumn>
+                    <dot:RouteLink RouteName="MailTemplateDetail" Param-id="{value: Id}">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </dot:RouteLink>
+                </dot:GridViewTemplateColumn>
+
+                <dot:GridViewTemplateColumn>
+                    <dot:LinkButton Click="{command: _root.DeleteItem(Id)}">
+                        <PostBack.Handlers>
+                            <dot:ConfirmPostBackHandler Message="Do you really want to delete this mail template?" />
+                        </PostBack.Handlers>
+
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </dot:LinkButton>
+                </dot:GridViewTemplateColumn>
+
+            </Columns>
+            <EmptyDataTemplate>
+                <em>No mail templates have been created yet.</em>
+            </EmptyDataTemplate>
+        </dot:GridView>
+
+    </div>
+
+
+</dot:Content>

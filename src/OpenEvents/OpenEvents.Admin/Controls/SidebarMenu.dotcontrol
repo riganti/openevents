@@ -14,4 +14,8 @@
         <bs:GlyphIcon Icon="List" /> Orders
     </bs:ListGroupItem>
 
+    <bs:ListGroupItem RouteName="MailTemplateList" IsSelected="{value: CurrentSection == "MailTemplates"}">
+        <bs:GlyphIcon Icon="Envelope" /> Mail Templates
+    </bs:ListGroupItem>
+
 </bs:ListGroup>

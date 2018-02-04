@@ -1,0 +1,69 @@
+﻿@viewModel OpenEvents.Admin.ViewModels.MailTemplateDetailViewModel, OpenEvents.Admin
+@masterPage Views/MasterPage.dotmaster
+
+<dot:Content ContentPlaceHolderID="MainContent">
+
+    <div class="layout-content-title">
+        <div class="pull-right">
+            <bs:Button Click="{command: Save()}" Type="Primary" ButtonTagName="button" Validation.Target="{value: Item}">
+                <bs:GlyphIcon Icon="Ok" /> Save
+            </bs:Button>
+            <bs:RouteLink Text="Cancel" RouteName="MailTemplateList" Type="Default" />
+        </div>
+
+        <h2>Mail Template Detail</h2>
+    </div>
+    
+    <div class="layout-content-body">
+
+        <dot:ValidationSummary IncludeErrorsFromChildren="true" class="alert alert-danger" />
+
+        <bs:Row>
+            <bs:Column SizeMD="6">
+
+                <bs:Panel Type="Default">
+                    <HeaderTemplate>
+                        <h3>Basic Info</h3>
+                    </HeaderTemplate>
+                    <ContentTemplate>
+
+                        <bs:Form DataContext="{value: Item}">
+                            <bs:TextBoxGroup LabelText="FromAddress" Text="{value: FromAddress}" />
+                            <bs:TextBoxGroup LabelText="Subject" Text="{value: Subject}" />
+                        </bs:Form>
+
+                    </ContentTemplate>
+                </bs:Panel>
+
+            </bs:Column>
+            <bs:Column SizeMD="6">
+
+                <bs:Panel Type="Default">
+                    <HeaderTemplate>
+                        <h3>Metadata</h3>
+                    </HeaderTemplate>
+                    <ContentTemplate>
+
+                        <bs:Form DataContext="{value: Item}">
+                            <bs:ComboBoxGroup LabelText="Intent" DataSource="{value: _root.MailIntents}" SelectedValue="{value: MailIntent}" />
+                            <bs:ComboBoxGroup LabelText="Language Code" DataSource="{value: _root.Languages}" SelectedValue="{value: LanguageCode}" />
+                            <bs:ComboBoxGroup LabelText="Event" DataSource="{value: _root.Events}" DisplayMember="Title" ValueMember="Id" SelectedValue="{value: EventId}" EmptyItemText="(all)" />
+                        </bs:Form>
+
+                    </ContentTemplate>
+                </bs:Panel>
+
+            </bs:Column>
+
+        </bs:Row>
+
+        <bs:Row>
+            <bs:Column SizeLG="12">
+
+                <dot:TextBox Text="{value: Item.Body}" Type="MultiLine" style="min-height: 400px; height: calc(100vh - 550px)" class="form-control" />
+
+            </bs:Column>
+        </bs:Row>
+    </div>
+
+</dot:Content>
