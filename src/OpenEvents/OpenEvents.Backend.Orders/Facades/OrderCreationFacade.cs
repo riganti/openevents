@@ -135,7 +135,7 @@ namespace OpenEvents.Backend.Orders.Facades
                 LastName = i.LastName,
                 Email = i.Email,
                 Sku = i.Sku,
-                SkuDescription = eventData.Prices.Single(p => p.Sku == i.Sku).Description,
+                SkuDescription = eventData.Prices.Single(p => p.Sku == i.Sku).Title,
                 OrderId = orderData.Id
             });
             await eventsApi.ApiRegistrationsByEventIdBatchPostAsync(eventData.Id, registrations);
