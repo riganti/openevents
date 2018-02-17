@@ -59,7 +59,7 @@ namespace OpenEvents.Backend.Orders.Controllers
         public async Task<PriceDataDTO> Calculate(string eventId, [FromBody] CalculateOrderDTO order)
         {
             var eventData = await eventsCache.Get(eventId);
-            var price = orderPriceCalculationFacade.CalculatePriceForOrderAndItems(eventData, order);
+            var price = await orderPriceCalculationFacade.CalculatePriceForOrderAndItems(eventData, order);
             return price.TotalPrice;
         }
         

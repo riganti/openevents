@@ -11,7 +11,6 @@ namespace OpenEvents.Backend.Orders.Exceptions
 
         public InvalidSkuException() : base("Invalid SKU!")
         {
-            
         }
 
     }

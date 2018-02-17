@@ -32,6 +32,8 @@ namespace OpenEvents.Backend.Orders.Data
 
         public DateTime? CanceledDate { get; set; }
 
+        public string DiscountCode { get; set; }
+
         public string ReplacedByOrderId { get; set; }
 
         public List<ExtensionData> ExtensionData { get; set; } = new List<ExtensionData>();

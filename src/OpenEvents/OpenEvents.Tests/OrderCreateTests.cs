@@ -39,13 +39,15 @@ namespace OpenEvents.Tests
             eventsApi.Setup(a => a.ApiRegistrationsByEventIdCountGetAsync(It.IsAny<string>())).Returns(Task.FromResult(0));
 
             var ordersCollection = new Mock<IMongoCollection<Order>>();
+            var discountCodesCollection = new Mock<IMongoCollection<DiscountCode>>();
 
             var orderNumbersQuery = new Mock<OrderNumbersQuery>(ordersCollection.Object);
             orderNumbersQuery.Setup(q => q.Execute()).Returns(Task.FromResult<IList<string>>(new List<string>() { "2018000001" }));
 
             var orderCreatedPublisher = new Mock<IPublisher<OrderCreated>>();
 
-            var priceCalculationFacade = new OrderPriceCalculationFacade(vatRateProvider.Object, vatNumberValidator.Object, dateTimeProvider.Object);
+            var orderDiscountFacade = new Mock<OrderDiscountFacade>(discountCodesCollection.Object);
+            var priceCalculationFacade = new OrderPriceCalculationFacade(vatRateProvider.Object, vatNumberValidator.Object, dateTimeProvider.Object, orderDiscountFacade.Object);
             return new OrderCreationFacade(ordersCollection.Object, () => orderNumbersQuery.Object, priceCalculationFacade, orderCreatedPublisher.Object, dateTimeProvider.Object, eventsApi.Object);
         }
 

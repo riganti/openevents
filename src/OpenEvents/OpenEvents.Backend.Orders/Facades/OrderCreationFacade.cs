@@ -5,15 +5,14 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using MongoDB.Driver;
-using OpenEvents.Backend.Common;
 using OpenEvents.Backend.Common.Messaging;
 using OpenEvents.Backend.Common.Messaging.Contracts;
 using OpenEvents.Backend.Common.Services;
+using OpenEvents.Backend.Orders.Common;
 using OpenEvents.Backend.Orders.Data;
 using OpenEvents.Backend.Orders.Exceptions;
 using OpenEvents.Backend.Orders.Model;
 using OpenEvents.Backend.Orders.Queries;
-using OpenEvents.Backend.Orders.Services;
 using OpenEvents.Client;
 
 namespace OpenEvents.Backend.Orders.Facades
@@ -48,7 +47,7 @@ namespace OpenEvents.Backend.Orders.Facades
             InitializeOrder(eventData, orderData, now);
 
             // calculate prices
-            CalculatePrices(eventData, orderData);
+            await CalculatePrices(eventData, orderData, invalidateDiscountCoupon: true);
 
             // assign order id
             await GenerateOrderNumber(orderData);
@@ -101,12 +100,27 @@ namespace OpenEvents.Backend.Orders.Facades
             return $"{date:yyyy}{number + 1:000000}";
         }
 
-        private void CalculatePrices(EventDTO eventData, Order orderData)
+        private async Task CalculatePrices(EventDTO eventData, Order orderData, bool invalidateDiscountCoupon)
         {
-            var price = orderPriceCalculationFacade.CalculatePriceForOrderAndItems(eventData, Mapper.Map<CalculateOrderDTO>(orderData));
+            var calculatedOrder = Mapper.Map<CalculateOrderDTO>(orderData);
+            var price = await orderPriceCalculationFacade.CalculatePriceForOrderAndItems(eventData, calculatedOrder, invalidateDiscountCoupon);
+
+            // copy item prices
             for (var i = 0; i < orderData.OrderItems.Count; i++)
             {
                 orderData.OrderItems[i].Price = Mapper.Map<PriceData>(price.OrderItemPrices[i]);
+            }
+
+            // add extra items (discount)
+            for (int i = orderData.OrderItems.Count; i < calculatedOrder.OrderItems.Count; i++)
+            {
+                orderData.OrderItems.Add(new OrderItem()
+                {
+                    Price = Mapper.Map<PriceData>(price.OrderItemPrices[i]),
+                    Sku = calculatedOrder.OrderItems[i].Sku,
+                    Amount = calculatedOrder.OrderItems[i].Amount,
+                    Type = OrderItemType.Discount
+                });
             }
 
             orderData.TotalPrice = Mapper.Map<PriceData>(price.TotalPrice);

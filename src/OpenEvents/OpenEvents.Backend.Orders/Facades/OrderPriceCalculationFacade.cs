@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using OpenEvents.Backend.Common;
 using OpenEvents.Backend.Common.Services;
 using OpenEvents.Backend.Orders.Exceptions;
@@ -16,54 +17,41 @@ namespace OpenEvents.Backend.Orders.Facades
         private readonly IVatRateProvider vatRateProvider;
         private readonly IVatNumberValidator vatNumberValidator;
         private readonly IDateTimeProvider dateTimeProvider;
+        private readonly OrderDiscountFacade orderDiscountFacade;
 
-        public OrderPriceCalculationFacade(IVatRateProvider vatRateProvider, IVatNumberValidator vatNumberValidator, IDateTimeProvider dateTimeProvider)
+        public OrderPriceCalculationFacade(IVatRateProvider vatRateProvider, IVatNumberValidator vatNumberValidator, IDateTimeProvider dateTimeProvider, OrderDiscountFacade orderDiscountFacade)
         {
             this.vatRateProvider = vatRateProvider;
             this.vatNumberValidator = vatNumberValidator;
             this.dateTimeProvider = dateTimeProvider;
+            this.orderDiscountFacade = orderDiscountFacade;
         }
 
 
-        public CalculateOrderResultDTO CalculatePriceForOrderAndItems(EventDTO eventData, CalculateOrderDTO order)
+        public async Task<CalculateOrderResultDTO> CalculatePriceForOrderAndItems(EventDTO eventData, CalculateOrderDTO order, bool invalidateDiscountCoupon = false)
         {
-            if (!string.IsNullOrEmpty(order.BillingAddress.VatNumber))
-            {
-                // validate VAT
-                if (!vatNumberValidator.IsValidVat(order.BillingAddress))
-                {
-                    throw new InvalidVATException();
-                }
-            }
-
-            // get current VAT rate
             var now = dateTimeProvider.Now;
-            var vatRate = vatRateProvider.GetVatRate(now, order.BillingAddress);
-
+            
             // calculate prices for order items
-            var orderItemPrices = new List<PriceDataDTO>();
-            foreach (var i in order.OrderItems)
-            {
-                var eventPrice = eventData.Prices.SingleOrDefault(p => p.BeginDate <= now && now < p.EndDate && p.Sku == i.Sku);
-                if (eventPrice == null)
-                {
-                    throw new InvalidSkuException();
-                }
+            var orderItemPrices = CalculateItemPrices(eventData, order, now);
 
-                var orderItemPrice = new PriceDataDTO();
-                orderItemPrice.BasePrice = Round(i.Amount * (decimal)eventPrice.Price.Value);
-                orderItemPrice.CurrencyCode = eventPrice.CurrencyCode;
-                orderItemPrice.Price = Round(orderItemPrice.BasePrice * (1m - orderItemPrice.DiscountPercent / 100m));
-                orderItemPrice.VatRate = vatRate;
-                orderItemPrice.PriceInclVat = Round(orderItemPrice.Price * orderItemPrice.VatRate);
-
-                orderItemPrices.Add(orderItemPrice);
-            }
-
+            // validate there is only one currency
             if (orderItemPrices.Select(p => p.CurrencyCode).Distinct().Count() > 1)
             {
                 throw new OrderItemsMustUseTheSameCurrencyException();
             }
+
+            // apply discount
+            if (!string.IsNullOrEmpty(order.DiscountCode))
+            {
+                await orderDiscountFacade.ApplyDiscount(eventData, order, orderItemPrices, invalidateDiscountCoupon);
+            }
+
+            // get current VAT rate
+            var vatRate = DetermineVat(order, now);
+
+            // apply VAT
+            ApplyVat(orderItemPrices, vatRate);
 
             // calculate total for order
             var totalPrice = new PriceDataDTO()
@@ -82,7 +70,53 @@ namespace OpenEvents.Backend.Orders.Facades
             };
         }
 
-        private decimal Round(decimal value)
+        private List<PriceDataDTO> CalculateItemPrices(EventDTO eventData, CalculateOrderDTO order, DateTime now)
+        {
+            var orderItemPrices = new List<PriceDataDTO>();
+            foreach (var i in order.OrderItems)
+            {
+                var eventPrice = eventData.Prices.SingleOrDefault(p => p.BeginDate <= now && now < p.EndDate && p.Sku == i.Sku);
+                if (eventPrice == null)
+                {
+                    throw new InvalidSkuException();
+                }
+
+                var orderItemPrice = new PriceDataDTO();
+                orderItemPrice.BasePrice = (decimal) eventPrice.Price.Value;
+                orderItemPrice.CurrencyCode = eventPrice.CurrencyCode;
+                orderItemPrice.Price = Round(i.Amount * orderItemPrice.BasePrice);
+
+                orderItemPrices.Add(orderItemPrice);
+            }
+
+            return orderItemPrices;
+        }
+
+        private void ApplyVat(List<PriceDataDTO> orderItemPrices, decimal vatRate)
+        {
+            foreach (var orderItemPrice in orderItemPrices)
+            {
+                orderItemPrice.VatRate = vatRate;
+                orderItemPrice.PriceInclVat = Round(orderItemPrice.Price * orderItemPrice.VatRate);
+            }
+        }
+
+        private decimal DetermineVat(CalculateOrderDTO order, DateTime now)
+        {
+            if (!string.IsNullOrEmpty(order.BillingAddress.VatNumber))
+            {
+                // validate VAT
+                if (!vatNumberValidator.IsValidVat(order.BillingAddress))
+                {
+                    throw new InvalidVATException();
+                }
+            }
+
+            var vatRate = vatRateProvider.GetVatRate(now, order.BillingAddress);
+            return vatRate;
+        }
+
+        public static decimal Round(decimal value)
         {
             return Math.Round(value, 2, MidpointRounding.AwayFromZero);
         }

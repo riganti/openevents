@@ -25,6 +25,7 @@ namespace OpenEvents.Backend.Orders
         protected override void ConfigureMongoCollections(IServiceCollection services)
         {
             services.AddSingleton(provider => provider.GetService<IMongoDatabase>().GetCollection<Order>("orders"));
+            services.AddSingleton(provider => provider.GetService<IMongoDatabase>().GetCollection<DiscountCode>("discountCodes"));
         }
 
         protected override void ConfigureFacades(IServiceCollection services)
