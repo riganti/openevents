@@ -118,7 +118,21 @@
 
 
     <bs:Row>
-        <bs:Column SizeLG="12">
+        <bs:Column SizeLG="6">
+            <bs:Panel>
+                <HeaderTemplate>Extra Information</HeaderTemplate>
+                <ContentTemplate>
+
+                    <bs:Form DataContext="{value: Order}">
+                        <bs:TextBoxGroup LabelText="Language Code" Text="{value: LanguageCode}" />
+                        <bs:TextBoxGroup LabelText="Discount Code" Text="{value: DiscountCode}" />
+                    </bs:Form>
+
+                </ContentTemplate>
+            </bs:Panel>
+        </bs:Column>
+
+        <bs:Column SizeLG="6">
             <bs:Panel>
                 <HeaderTemplate>Price</HeaderTemplate>
                 <ContentTemplate>

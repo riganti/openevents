@@ -8,7 +8,7 @@ using OpenEvents.Backend.Common.Messaging.Contracts;
 
 namespace OpenEvents.Backend.Invoicing.Messaging
 {
-    public class OrderChangedSubscription : Subscription<OrderChanged>
+    public class OrderChangedSubscription : Subscription<OrderChanged, OrderChangedEventHandler>
     {
         public OrderChangedSubscription(ServiceBusConfiguration config, ServiceBusProvisioningService serviceBusProvisioningService, IServiceScopeFactory serviceScopeFactory) : base(config, serviceBusProvisioningService, serviceScopeFactory)
         {

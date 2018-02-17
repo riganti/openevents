@@ -33,6 +33,7 @@ namespace OpenEvents.Backend.Orders
             services.AddScoped<OrdersFacade>();
             services.AddScoped<OrderCreationFacade>();
             services.AddScoped<OrderPriceCalculationFacade>();
+            services.AddScoped<OrderDiscountFacade>();
         }
 
         protected override void ConfigureAdditionalServices(IServiceCollection services)

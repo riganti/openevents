@@ -21,6 +21,8 @@ namespace OpenEvents.Backend.Mailing.Common
         CreditNote = 8,
 
         EventInfo = 9,
-        EventReminder = 10
+        EventReminder = 10,
+
+        ExternalInvoiceRequest = 11
     }
 }

@@ -22,12 +22,12 @@ namespace OpenEvents.Client
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<MailTemplateDTO> ApiMailtemplatesPostAsync(MailTemplateDTO mailTemplatesData);
+        System.Threading.Tasks.Task<MailTemplateDTO> ApiMailtemplatesPostAsync(MailTemplateDTO mailTemplateData);
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task<MailTemplateDTO> ApiMailtemplatesPostAsync(MailTemplateDTO mailTemplatesData, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<MailTemplateDTO> ApiMailtemplatesPostAsync(MailTemplateDTO mailTemplateData, System.Threading.CancellationToken cancellationToken);
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
@@ -40,12 +40,12 @@ namespace OpenEvents.Client
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task ApiMailtemplatesByIdPutAsync(string id, MailTemplateDTO mailTemplatesData);
+        System.Threading.Tasks.Task ApiMailtemplatesByIdPutAsync(string id, MailTemplateDTO mailTemplateData);
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        System.Threading.Tasks.Task ApiMailtemplatesByIdPutAsync(string id, MailTemplateDTO mailTemplatesData, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task ApiMailtemplatesByIdPutAsync(string id, MailTemplateDTO mailTemplateData, System.Threading.CancellationToken cancellationToken);
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
@@ -55,6 +55,15 @@ namespace OpenEvents.Client
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         System.Threading.Tasks.Task ApiMailtemplatesByIdDeleteAsync(string id, System.Threading.CancellationToken cancellationToken);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<string> ApiMailtemplatesTestPostAsync(MailTemplateDTO mailTemplateData);
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        System.Threading.Tasks.Task<string> ApiMailtemplatesTestPostAsync(MailTemplateDTO mailTemplateData, System.Threading.CancellationToken cancellationToken);
     
     }
     
@@ -167,15 +176,15 @@ namespace OpenEvents.Client
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<MailTemplateDTO> ApiMailtemplatesPostAsync(MailTemplateDTO mailTemplatesData)
+        public System.Threading.Tasks.Task<MailTemplateDTO> ApiMailtemplatesPostAsync(MailTemplateDTO mailTemplateData)
         {
-            return ApiMailtemplatesPostAsync(mailTemplatesData, System.Threading.CancellationToken.None);
+            return ApiMailtemplatesPostAsync(mailTemplateData, System.Threading.CancellationToken.None);
         }
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task<MailTemplateDTO> ApiMailtemplatesPostAsync(MailTemplateDTO mailTemplatesData, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<MailTemplateDTO> ApiMailtemplatesPostAsync(MailTemplateDTO mailTemplateData, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/mailtemplates");
@@ -185,7 +194,7 @@ namespace OpenEvents.Client
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(mailTemplatesData, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(mailTemplateData, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
@@ -324,15 +333,15 @@ namespace OpenEvents.Client
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task ApiMailtemplatesByIdPutAsync(string id, MailTemplateDTO mailTemplatesData)
+        public System.Threading.Tasks.Task ApiMailtemplatesByIdPutAsync(string id, MailTemplateDTO mailTemplateData)
         {
-            return ApiMailtemplatesByIdPutAsync(id, mailTemplatesData, System.Threading.CancellationToken.None);
+            return ApiMailtemplatesByIdPutAsync(id, mailTemplateData, System.Threading.CancellationToken.None);
         }
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task ApiMailtemplatesByIdPutAsync(string id, MailTemplateDTO mailTemplatesData, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task ApiMailtemplatesByIdPutAsync(string id, MailTemplateDTO mailTemplateData, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -346,7 +355,7 @@ namespace OpenEvents.Client
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(mailTemplatesData, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(mailTemplateData, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
@@ -442,6 +451,84 @@ namespace OpenEvents.Client
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
                         }
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (client_ != null)
+                    client_.Dispose();
+            }
+        }
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task<string> ApiMailtemplatesTestPostAsync(MailTemplateDTO mailTemplateData)
+        {
+            return ApiMailtemplatesTestPostAsync(mailTemplateData, System.Threading.CancellationToken.None);
+        }
+    
+        /// <returns>Success</returns>
+        /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        public async System.Threading.Tasks.Task<string> ApiMailtemplatesTestPostAsync(MailTemplateDTO mailTemplateData, System.Threading.CancellationToken cancellationToken)
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/mailtemplates/test");
+    
+            var client_ = new System.Net.Http.HttpClient();
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(mailTemplateData, _settings.Value));
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+    
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+    
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        foreach (var item_ in response_.Content.Headers)
+                            headers_[item_.Key] = item_.Value;
+    
+                        ProcessResponse(client_, response_);
+    
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200") 
+                        {
+                            var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            var result_ = default(string); 
+                            try
+                            {
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseData_, _settings.Value);
+                                return result_; 
+                            } 
+                            catch (System.Exception exception_) 
+                            {
+                                throw new SwaggerException("Could not deserialize the response body.", status_, responseData_, headers_, exception_);
+                            }
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
+                        }
+            
+                        return default(string);
                     }
                     finally
                     {
@@ -645,6 +732,9 @@ namespace OpenEvents.Client
         [System.Runtime.Serialization.EnumMember(Value = "EventReminder")]
         EventReminder = 10,
     
+        [System.Runtime.Serialization.EnumMember(Value = "ExternalInvoiceRequest")]
+        ExternalInvoiceRequest = 11,
+    
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v10.0.0.0)")]
@@ -682,6 +772,9 @@ namespace OpenEvents.Client
     
         [System.Runtime.Serialization.EnumMember(Value = "EventReminder")]
         EventReminder = 10,
+    
+        [System.Runtime.Serialization.EnumMember(Value = "ExternalInvoiceRequest")]
+        ExternalInvoiceRequest = 11,
     
     }
 

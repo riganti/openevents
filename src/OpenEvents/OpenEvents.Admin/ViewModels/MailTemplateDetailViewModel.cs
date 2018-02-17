@@ -41,6 +41,10 @@ namespace OpenEvents.Admin.ViewModels
         [FromRoute("id")]
         public string ItemId { get; private set; }
 
+        public bool IsTestDisplayed { get; set; }
+
+        public string TestResult { get; set; }
+
 
         public override async Task PreRender()
         {
@@ -81,6 +85,12 @@ namespace OpenEvents.Admin.ViewModels
             });
 
             Context.RedirectToRoute("MailTemplateList");
+        }
+
+        public async Task Test()
+        {
+            TestResult = await client.ApiMailtemplatesTestPostAsync(Item);
+            IsTestDisplayed = true;
         }
 
     }

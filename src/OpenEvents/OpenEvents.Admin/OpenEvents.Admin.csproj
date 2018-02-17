@@ -31,7 +31,7 @@
         <PackageReference Include="DotVVM.Controls.Bootstrap" Version="1.1.7.1" />
         <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
-        <PackageReference Include="DotVVM.AspNetCore" Version="1.1.8.1" />
+        <PackageReference Include="DotVVM.AspNetCore" Version="1.1.8.2" />
         
     </ItemGroup>
     <ItemGroup>

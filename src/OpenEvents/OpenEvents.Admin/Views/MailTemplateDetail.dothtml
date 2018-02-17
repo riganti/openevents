@@ -5,6 +5,9 @@
 
     <div class="layout-content-title">
         <div class="pull-right">
+            <bs:Button Click="{command: Test()}" Type="Default" ButtonTagName="button" Validation.Target="{value: Item}">
+                <bs:GlyphIcon Icon="Check" /> Test
+            </bs:Button>
             <bs:Button Click="{command: Save()}" Type="Primary" ButtonTagName="button" Validation.Target="{value: Item}">
                 <bs:GlyphIcon Icon="Ok" /> Save
             </bs:Button>
@@ -65,5 +68,12 @@
             </bs:Column>
         </bs:Row>
     </div>
+
+    <bs:ModalDialog Size="Large" IsDisplayed="{value: IsTestDisplayed}">
+        <HeaderTemplate>Test Template</HeaderTemplate>
+        <ContentTemplate>
+            <pre InnerText="{value: TestResult}"></pre>
+        </ContentTemplate>
+    </bs:ModalDialog>
 
 </dot:Content>

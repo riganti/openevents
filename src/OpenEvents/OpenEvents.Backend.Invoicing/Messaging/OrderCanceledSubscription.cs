@@ -8,7 +8,7 @@ using OpenEvents.Backend.Common.Messaging.Contracts;
 
 namespace OpenEvents.Backend.Invoicing.Messaging
 {
-    public class OrderCanceledSubscription : Subscription<OrderCanceled>
+    public class OrderCanceledSubscription : Subscription<OrderCanceled, OrderCanceledEventHandler>
     {
         public OrderCanceledSubscription(ServiceBusConfiguration config, ServiceBusProvisioningService serviceBusProvisioningService, IServiceScopeFactory serviceScopeFactory) : base(config, serviceBusProvisioningService, serviceScopeFactory)
         {

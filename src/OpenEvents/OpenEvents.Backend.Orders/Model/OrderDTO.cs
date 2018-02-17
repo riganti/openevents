@@ -36,5 +36,7 @@ namespace OpenEvents.Backend.Orders.Model
         
         public List<ExtensionDataDTO> ExtensionData { get; set; } = new List<ExtensionDataDTO>();
 
+        public string LanguageCode { get; set; }
+
     }
 }

@@ -37,5 +37,7 @@ namespace OpenEvents.Backend.Orders.Data
         public string ReplacedByOrderId { get; set; }
 
         public List<ExtensionData> ExtensionData { get; set; } = new List<ExtensionData>();
+
+        public string LanguageCode { get; set; }
     }
 }

@@ -133,7 +133,7 @@ namespace OpenEvents.Backend.Common
             var handlerTypes = GetType().Assembly.FindAllOpenGenericImplementations(typeof(IEventHandler<>));
             foreach (var handlerType in handlerTypes)
             {
-                services.AddScoped(handlerType.Interface, handlerType.Implementation);
+                services.AddScoped(handlerType.Implementation);
             }
         }
         

@@ -59,7 +59,7 @@ namespace OpenEvents.Backend.Orders.Facades
             await CreateRegistrations(eventData, order, orderData);
 
             // publish message
-            await orderCreatedPublisher.PublishEvent(new OrderCreated() { OrderId = orderData.Id });
+            await orderCreatedPublisher.PublishEvent(new OrderCreated() { OrderId = orderData.Id, EventId = orderData.EventId });
 
             return Mapper.Map<OrderDTO>(orderData);
         }

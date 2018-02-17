@@ -117,6 +117,7 @@
                                         </dot:LinkButton>
                                     </div>
 
+                                    <bs:TextBoxGroup LabelText="SKU" Text="{value: Sku}" />
                                     <bs:TextBoxGroup LabelText="Title" Text="{value: Title}" />
                                     <bs:TextBoxGroup LabelText="Description" Text="{value: Description}" Type="MultiLine" />
 

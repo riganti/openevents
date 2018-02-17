@@ -10,7 +10,7 @@ using OpenEvents.Backend.Common.Configuration;
 
 namespace OpenEvents.Backend.Common.Messaging
 {
-    public abstract class Subscription<TEvent> : ISubscription<TEvent>
+    public abstract class Subscription<TEvent, THandler> : ISubscription<TEvent> where THandler : IEventHandler<TEvent>
     {
         private readonly ServiceBusConfiguration config;
         private readonly ServiceBusProvisioningService serviceBusProvisioningService;
@@ -63,7 +63,7 @@ namespace OpenEvents.Backend.Common.Messaging
 
             using (var scope = serviceScopeFactory.CreateScope())
             {
-                var handler = scope.ServiceProvider.GetService<IEventHandler<TEvent>>();
+                var handler = scope.ServiceProvider.GetService<THandler>();
                 await handler.ProcessEvent(data);
             }
         }

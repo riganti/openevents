@@ -8,9 +8,7 @@ namespace OpenEvents.Backend.Orders.Data
     {
 
         public decimal BasePrice { get; set; }
-
-        public decimal DiscountPercent { get; set; }
-
+        
         public decimal Price { get; set; }
 
         public decimal VatRate { get; set; }

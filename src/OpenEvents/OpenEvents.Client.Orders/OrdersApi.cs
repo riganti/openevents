@@ -416,8 +416,10 @@ namespace OpenEvents.Client
         private PriceDataDTO _totalPrice;
         private System.Collections.ObjectModel.ObservableCollection<OrderDocumentDTO> _orderDocuments;
         private System.DateTime? _canceledDate;
+        private string _discountCode;
         private string _replacedByOrderId;
         private System.Collections.ObjectModel.ObservableCollection<ExtensionDataDTO> _extensionData;
+        private string _languageCode;
     
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Id
@@ -573,6 +575,20 @@ namespace OpenEvents.Client
             }
         }
     
+        [Newtonsoft.Json.JsonProperty("discountCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DiscountCode
+        {
+            get { return _discountCode; }
+            set 
+            {
+                if (_discountCode != value)
+                {
+                    _discountCode = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
         [Newtonsoft.Json.JsonProperty("replacedByOrderId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ReplacedByOrderId
         {
@@ -596,6 +612,20 @@ namespace OpenEvents.Client
                 if (_extensionData != value)
                 {
                     _extensionData = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("languageCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LanguageCode
+        {
+            get { return _languageCode; }
+            set 
+            {
+                if (_languageCode != value)
+                {
+                    _languageCode = value; 
                     RaisePropertyChanged();
                 }
             }
@@ -1074,7 +1104,6 @@ namespace OpenEvents.Client
     public partial class PriceDataDTO : System.ComponentModel.INotifyPropertyChanged
     {
         private double? _basePrice;
-        private double? _discountPercent;
         private double? _price;
         private double? _vatRate;
         private double? _priceInclVat;
@@ -1089,20 +1118,6 @@ namespace OpenEvents.Client
                 if (_basePrice != value)
                 {
                     _basePrice = value; 
-                    RaisePropertyChanged();
-                }
-            }
-        }
-    
-        [Newtonsoft.Json.JsonProperty("discountPercent", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public double? DiscountPercent
-        {
-            get { return _discountPercent; }
-            set 
-            {
-                if (_discountPercent != value)
-                {
-                    _discountPercent = value; 
                     RaisePropertyChanged();
                 }
             }
@@ -1426,10 +1441,40 @@ namespace OpenEvents.Client
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v10.0.0.0)")]
     public partial class CreateOrderDTO : System.ComponentModel.INotifyPropertyChanged
     {
+        private string _languageCode;
+        private string _discountCode;
         private AddressDTO _billingAddress;
         private OrderCustomerDataDTO _customerData;
         private System.Collections.ObjectModel.ObservableCollection<CreateOrderItemDTO> _orderItems;
         private System.Collections.ObjectModel.ObservableCollection<ExtensionDataDTO> _extensionData;
+    
+        [Newtonsoft.Json.JsonProperty("languageCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string LanguageCode
+        {
+            get { return _languageCode; }
+            set 
+            {
+                if (_languageCode != value)
+                {
+                    _languageCode = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
+    
+        [Newtonsoft.Json.JsonProperty("discountCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DiscountCode
+        {
+            get { return _discountCode; }
+            set 
+            {
+                if (_discountCode != value)
+                {
+                    _discountCode = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
     
         [Newtonsoft.Json.JsonProperty("billingAddress", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public AddressDTO BillingAddress
@@ -1613,8 +1658,23 @@ namespace OpenEvents.Client
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.13.0 (Newtonsoft.Json v10.0.0.0)")]
     public partial class CalculateOrderDTO : System.ComponentModel.INotifyPropertyChanged
     {
+        private string _discountCode;
         private CalculateAddressDTO _billingAddress;
         private System.Collections.ObjectModel.ObservableCollection<CalculateOrderItemDTO> _orderItems;
+    
+        [Newtonsoft.Json.JsonProperty("discountCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string DiscountCode
+        {
+            get { return _discountCode; }
+            set 
+            {
+                if (_discountCode != value)
+                {
+                    _discountCode = value; 
+                    RaisePropertyChanged();
+                }
+            }
+        }
     
         [Newtonsoft.Json.JsonProperty("billingAddress", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public CalculateAddressDTO BillingAddress
@@ -1781,6 +1841,9 @@ namespace OpenEvents.Client
     
         [System.Runtime.Serialization.EnumMember(Value = "EventPrice")]
         EventPrice = 1,
+    
+        [System.Runtime.Serialization.EnumMember(Value = "Discount")]
+        Discount = 2,
     
     }
     

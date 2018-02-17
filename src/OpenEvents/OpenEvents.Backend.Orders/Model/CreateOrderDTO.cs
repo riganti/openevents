@@ -7,7 +7,10 @@ namespace OpenEvents.Backend.Orders.Model
 {
     public class CreateOrderDTO : IValidatableObject
     {
-        
+        public string LanguageCode { get; set; }
+
+        public string DiscountCode { get; set; }
+
         public AddressDTO BillingAddress { get; set; } = new AddressDTO();
 
         public OrderCustomerDataDTO CustomerData { get; set; } = new OrderCustomerDataDTO();

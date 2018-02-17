@@ -18,7 +18,7 @@ namespace OpenEvents.Backend.Invoicing.Services
         public async Task CreateInvoiceForChangedOrder(OrderDTO oldOrder, OrderDTO newOrder)
         {
             // discount or VAT changed, generate credit note and new invoice
-            if (oldOrder.TotalPrice.DiscountPercent != newOrder.TotalPrice.DiscountPercent || oldOrder.TotalPrice.VatRate != newOrder.TotalPrice.VatRate)
+            if (oldOrder.TotalPrice.VatRate != newOrder.TotalPrice.VatRate)
             {
                 await CreateCreditNote(oldOrder, oldOrder.TotalPrice);
                 await CreateInvoice(newOrder, newOrder.TotalPrice);
@@ -28,7 +28,6 @@ namespace OpenEvents.Backend.Invoicing.Services
                 // generate an invoice for the amount difference
                 var difference = new PriceDataDTO()
                 {
-                    DiscountPercent = newOrder.TotalPrice.DiscountPercent,
                     VatRate = newOrder.TotalPrice.Price,
                     BasePrice = newOrder.TotalPrice.BasePrice - oldOrder.TotalPrice.BasePrice,
                     Price = newOrder.TotalPrice.Price - oldOrder.TotalPrice.Price,
@@ -41,7 +40,6 @@ namespace OpenEvents.Backend.Invoicing.Services
                 // generate a credit note for the amount difference
                 var difference = new PriceDataDTO()
                 {
-                    DiscountPercent = newOrder.TotalPrice.DiscountPercent,
                     VatRate = newOrder.TotalPrice.Price,
                     BasePrice = oldOrder.TotalPrice.BasePrice - newOrder.TotalPrice.BasePrice,
                     Price = oldOrder.TotalPrice.Price - newOrder.TotalPrice.Price,

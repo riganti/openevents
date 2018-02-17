@@ -9,6 +9,7 @@ namespace OpenEvents.Backend.Common.Messaging.Contracts
 
         public string OrderId { get; set; }
 
+        public string EventId { get; set; }
 
     }
 }
