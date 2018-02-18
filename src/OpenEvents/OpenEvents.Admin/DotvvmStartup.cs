@@ -40,6 +40,8 @@ namespace OpenEvents.Admin
         {
             // register code-only controls and markup controls
             config.Markup.AddMarkupControl("cc", "SidebarMenu", "Controls/SidebarMenu.dotcontrol");
+
+            config.Markup.AddMarkupControl("cc", "OrderDocumentUploadDialog", "Controls/OrderDocumentUploadDialog.dotcontrol");
         }
 
         private void ConfigureResources(DotvvmConfiguration config, string applicationPath)

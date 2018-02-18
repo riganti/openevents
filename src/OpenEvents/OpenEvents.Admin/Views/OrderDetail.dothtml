@@ -1,7 +1,257 @@
 ﻿@viewModel OpenEvents.Admin.ViewModels.OrderDetailViewModel, OpenEvents.Admin
 @masterPage Views/MasterPage.dotmaster
+@import OpenEvents.Admin.ViewModels
 
 <dot:Content ContentPlaceHolderID="MainContent">
 
+    <div class="layout-content-title">
+        <div class="pull-right">
+            <bs:RouteLink Text="Cancel" RouteName="OrderList" Type="Default" />
+        </div>
+
+        <h2>Order Detail</h2>
+    </div>
+
+    <div class="layout-content-body">
+
+        <dot:ValidationSummary IncludeErrorsFromChildren="true" class="alert alert-danger" />
+
+        <bs:Row>
+            <bs:Column SizeMD="6" SizeLG="4">
+
+                <bs:Panel Type="Default">
+                    <HeaderTemplate>
+                        <h3>Order Details</h3>
+                    </HeaderTemplate>
+                    <ContentTemplate>
+
+                        <bs:Form DataContext="{value: Item}">
+                            <bs:FormGroup LabelText="Number">
+                                <bs:FormStaticValue>
+                                    {{value: Id}}
+                                </bs:FormStaticValue>
+                            </bs:FormGroup>
+                            <bs:FormGroup LabelText="Event">
+                                <bs:FormStaticValue>
+                                    {{value: EventTitle}}
+                                </bs:FormStaticValue>
+                            </bs:FormGroup>
+                            <bs:FormGroup LabelText="Created Date">
+                                <bs:FormStaticValue>
+                                    <dot:Literal Text="{value: CreatedDate}" FormatString="g" />
+                                </bs:FormStaticValue>
+                            </bs:FormGroup>
+                            <bs:FormGroup LabelText="Discount Code">
+                                <bs:FormStaticValue>
+                                    {{value: DiscountCode}}
+                                </bs:FormStaticValue>
+                            </bs:FormGroup>
+                            <bs:FormGroup LabelText="Language">
+                                <bs:FormStaticValue>
+                                    {{value: LanguageCode}}
+                                </bs:FormStaticValue>
+                            </bs:FormGroup>
+                        </bs:Form>
+
+                    </ContentTemplate>
+                </bs:Panel>
+
+            </bs:Column>
+
+            <bs:Column SizeMD="6" SizeLG="4" DataContext="{value: Item}">
+
+                <bs:Panel Type="Default">
+                    <HeaderTemplate>
+                        <div class="pull-right">
+                            <bs:Button Click="{command: _root.Edit(OrderEditMode.Address)}" Type="Default" ButtonTagName="button" Visible="{value: _root.EditMode == OrderEditMode.ReadOnly}">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit
+                            </bs:Button>
+                            <bs:Button Click="{command: _root.SaveAddress()}" Type="Default" ButtonTagName="button" Visible="{value: _root.EditMode == OrderEditMode.Address}">
+                                <span class="glyphicon glyphicon-save"></span> Save
+                            </bs:Button>
+                            <bs:Button Click="{command: _root.CancelEdit(OrderEditMode.Address)}" Type="Default" ButtonTagName="button" Visible="{value: _root.EditMode == OrderEditMode.Address}" Validation.Enabled="false">
+                                <span class="glyphicon glyphicon-refresh"></span> Cancel
+                            </bs:Button>
+                        </div>
+
+                        <h3>Billing Address</h3>
+                    </HeaderTemplate>
+                    <ContentTemplate>
+
+                        <bs:Form DataContext="{value: BillingAddress}">
+                            <bs:TextBoxGroup LabelText="Name / Company" Text="{value: Name}" Validator.Value="{value: Name}" Enabled="{value: _root.EditMode == OrderEditMode.Address}" />
+                            <bs:TextBoxGroup LabelText="Street" Text="{value: Street}" Validator.Value="{value: Street}" Enabled="{value: _root.EditMode == OrderEditMode.Address}" />
+                            <bs:TextBoxGroup LabelText="City" Text="{value: City}" Validator.Value="{value: City}" Enabled="{value: _root.EditMode == OrderEditMode.Address}" />
+                            <bs:TextBoxGroup LabelText="ZIP" Text="{value: Zip}" Validator.Value="{value: Zip}" Enabled="{value: _root.EditMode == OrderEditMode.Address}" />
+                            <bs:TextBoxGroup LabelText="State" Text="{value: State}" Enabled="{value: _root.EditMode == OrderEditMode.Address}" />
+                            <bs:ComboBoxGroup LabelText="Country" DataSource="{value: _root.Countries}" DisplayMember="Name" ValueMember="Code" SelectedValue="{value: CountryCode}"
+                                              Enabled="{value: _root.EditMode == OrderEditMode.Address}" />
+                        </bs:Form>
+
+                    </ContentTemplate>
+                </bs:Panel>
+
+            </bs:Column>
+
+            <bs:Column SizeMD="6" SizeLG="4" DataContext="{value: Item}">
+
+                <bs:Panel Type="Default">
+                    <HeaderTemplate>
+                        <div class="pull-right">
+                            <bs:Button Click="{command: _root.Edit(OrderEditMode.CustomerData)}" Type="Default" ButtonTagName="button" Visible="{value: _root.EditMode == OrderEditMode.ReadOnly}">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit
+                            </bs:Button>
+                            <bs:Button Click="{command: _root.SaveCustomerData()}" Type="Default" ButtonTagName="button" Visible="{value: _root.EditMode == OrderEditMode.CustomerData}">
+                                <span class="glyphicon glyphicon-save"></span> Save
+                            </bs:Button>
+                            <bs:Button Click="{command: _root.CancelEdit(OrderEditMode.CustomerData)}" Type="Default" ButtonTagName="button" Visible="{value: _root.EditMode == OrderEditMode.CustomerData}" Validation.Enabled="false">
+                                <span class="glyphicon glyphicon-refresh"></span> Cancel
+                            </bs:Button>
+                        </div>
+
+                        <h3>Customer Data</h3>
+                    </HeaderTemplate>
+                    <ContentTemplate>
+
+                        <bs:Form DataContext="{value: CustomerData}">
+                            <bs:TextBoxGroup LabelText="Order Number" Text="{value: OrderNumber}" Enabled="{value: _root.EditMode == OrderEditMode.CustomerData}" />
+                            <bs:TextBoxGroup LabelText="Notes" Text="{value: Notes}" Enabled="{value: _root.EditMode == OrderEditMode.CustomerData}" Type="MultiLine" />
+                        </bs:Form>
+
+                    </ContentTemplate>
+                </bs:Panel>
+
+                <bs:Panel Type="Default">
+                    <HeaderTemplate>
+                        <div class="pull-right">
+                            <bs:Button Click="{command: _root.Edit(OrderEditMode.PaymentData)}" Type="Default" ButtonTagName="button" Visible="{value: _root.EditMode == OrderEditMode.ReadOnly}">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit
+                            </bs:Button>
+                            <bs:Button Click="{command: _root.SavePaidDate()}" Type="Default" ButtonTagName="button" Visible="{value: _root.EditMode == OrderEditMode.PaymentData}">
+                                <span class="glyphicon glyphicon-save"></span> Save
+                            </bs:Button>
+                            <bs:Button Click="{command: _root.CancelEdit(OrderEditMode.PaymentData)}" Type="Default" ButtonTagName="button" Visible="{value: _root.EditMode == OrderEditMode.PaymentData}" Validation.Enabled="false">
+                                <span class="glyphicon glyphicon-refresh"></span> Cancel
+                            </bs:Button>
+                        </div>
+
+                        <h3>Payment Data</h3>
+                    </HeaderTemplate>
+                    <ContentTemplate>
+
+                        <bs:Form DataContext="{value: PaymentData}">
+                            <bs:DateTimePickerGroup LabelText="Paid Date" SelectedDate="{value: PaidDate}" Mode="Date" FormatString="d" Enabled="{value: _root.EditMode == OrderEditMode.PaymentData}" />
+                        </bs:Form>
+
+                    </ContentTemplate>
+                </bs:Panel>
+
+            </bs:Column>
+
+        </bs:Row>
+
+        <bs:Row>
+            <bs:Column SizeLG="6">
+
+                <bs:Panel Type="Default">
+                    <HeaderTemplate>
+                        <h3>Order Items</h3>
+                    </HeaderTemplate>
+                    <ContentTemplate>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Type</th>
+                                    <th>Unit Price</th>
+                                    <th>Amount</th>
+                                    <th>Price</th>
+                                    <th>Price incl. VAT</th>
+                                    <th>Currency</th>
+                                </tr>
+                            </thead>
+                            <dot:Repeater DataSource="{value: Item.OrderItems}" WrapperTagName="tbody">
+                                <tr>
+                                    <td>{{value: Description}}</td>
+                                    <td>{{value: Type}}</td>
+                                    <td>
+                                        <dot:Literal Text="{value: Price.BasePrice}" FormatString="n2" />
+                                    </td>
+                                    <td>{{value: Amount}}</td>
+                                    <td>
+                                        <dot:Literal Text="{value: Price.Price}" FormatString="n2" />
+                                    </td>
+                                    <td>
+                                        <dot:Literal Text="{value: Price.PriceInclVat}" FormatString="n2" />
+                                    </td>
+                                    <td>{{value: Price.CurrencyCode}}</td>
+                                </tr>
+                            </dot:Repeater>
+                        </table>
+
+                    </ContentTemplate>
+                </bs:Panel>
+
+            </bs:Column>
+
+            <bs:Column SizeLG="6">
+
+                <bs:Panel Type="Default">
+                    <HeaderTemplate>
+                        <h3>Order Documents</h3>
+                    </HeaderTemplate>
+                    <ContentTemplate>
+
+                        <table class="table table-bordered" Visible="{value: Item.OrderDocuments.Count > 0}">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Created</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <dot:Repeater DataSource="{value: Item.OrderDocuments}" WrapperTagName="tbody">
+                                <tr>
+                                    <td>{{value: Type}}</td>
+                                    <td>
+                                        <dot:Literal Text="{value: CreatedDate}" FormatString="d" />
+                                    </td>
+                                    <td>
+                                        <dot:LinkButton Click="{command: _root.DownloadDocument(Url, Type.Value)}">
+                                            <bs:GlyphIcon Icon="Download_alt" />
+                                        </dot:LinkButton>
+                                    </td>
+                                    <td>
+                                        <dot:LinkButton Click="{command: _root.RemoveDocument(Url)}">
+                                            <PostBack.Handlers>
+                                                <dot:ConfirmPostBackHandler Message="Do you really want to delete this document?" />
+                                            </PostBack.Handlers>
+                                            <bs:GlyphIcon Icon="Remove" />
+                                        </dot:LinkButton>
+                                    </td>
+                                </tr>
+                            </dot:Repeater>
+                        </table>
+
+                        <p Visible="{value: Item.OrderDocuments.Count == 0}">
+                            <em>This order doesn't have any documents yet.</em>
+                        </p>
+
+                        <p>
+                            <bs:LinkButton Click="{command: UploadDialog.Show()}" Type="Primary">
+                                <bs:GlyphIcon Icon="Plus" /> Add Document
+                            </bs:LinkButton>
+                        </p>
+
+                    </ContentTemplate>
+                </bs:Panel>
+
+            </bs:Column>
+        </bs:Row>
+    </div>
+
+    <cc:OrderDocumentUploadDialog DataContext="{value: UploadDialog}" />
 
 </dot:Content>

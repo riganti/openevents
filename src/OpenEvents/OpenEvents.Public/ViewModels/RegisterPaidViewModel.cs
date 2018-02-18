@@ -107,7 +107,7 @@ namespace OpenEvents.Public.ViewModels
                 }))
             };
 
-            var result = await ordersApi.ApiOrdersByEventIdCalculatePostAsync(EventId, calculationData);
+            var result = await ordersApi.ApiOrdersCalculateByEventIdPostAsync(EventId, calculationData);
             TotalPrice = $"{result.Price:n0} {result.CurrencyCode}";
             TotalPriceInclVat = $"{result.PriceInclVat:n0} {result.CurrencyCode}";
         }
@@ -116,7 +116,7 @@ namespace OpenEvents.Public.ViewModels
         {
             await ValidationHelper.Call(Context, async () =>
             {
-                await ordersApi.ApiOrdersByEventIdPostAsync(EventId, Order);
+                await ordersApi.ApiOrdersCreateByEventIdPostAsync(EventId, Order);
             });
 
             Context.RedirectToRoute("default");

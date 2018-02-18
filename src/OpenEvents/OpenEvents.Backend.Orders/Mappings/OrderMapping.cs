@@ -17,7 +17,6 @@ namespace OpenEvents.Backend.Orders.Mappings
             mapper.CreateMap<OrderCustomerData, OrderCustomerDataDTO>();
             mapper.CreateMap<OrderDocument, OrderDocumentDTO>();
             mapper.CreateMap<OrderItem, OrderItemDTO>();
-            mapper.CreateMap<OrderPayment, OrderPaymentDTO>();
             mapper.CreateMap<OrderPaymentData, OrderPaymentDataDTO>();
 
             mapper.CreateMap<PriceData, PriceDataDTO>();

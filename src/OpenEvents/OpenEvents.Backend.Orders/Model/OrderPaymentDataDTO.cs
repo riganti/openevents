@@ -12,8 +12,6 @@ namespace OpenEvents.Backend.Orders.Model
         public DateTime DueDate { get; set; }
 
         public DateTime? PaidDate { get; set; }
-
-        public List<OrderPaymentDTO> Payments { get; set; } = new List<OrderPaymentDTO>();
-
+        
     }
 }

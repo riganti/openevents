@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using OpenEvents.Backend.Common;
+using OpenEvents.Backend.Common.Configuration;
 using OpenEvents.Backend.Orders.Data;
 using OpenEvents.Backend.Orders.Facades;
 using OpenEvents.Backend.Orders.Services;
@@ -42,6 +43,9 @@ namespace OpenEvents.Backend.Orders
             services.AddSingleton<IVatRateProvider, CzechRepublicVatRateProvider>();
 
             services.AddSingleton<EventsCache>();
+
+            var documentStorageConfiguration = Configuration.GetSection("documentStorage").Get<DocumentStorageConfiguration>();
+            services.AddSingleton(new DocumentStorageService(documentStorageConfiguration));
 
             services.AddSingleton<IEventsApi>(provider => new EventsApi(Configuration.GetValue<string>("api:events")));
         }

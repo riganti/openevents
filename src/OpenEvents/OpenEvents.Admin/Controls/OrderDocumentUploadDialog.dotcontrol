@@ -1,0 +1,24 @@
+@viewModel OpenEvents.Admin.ViewModels.OrderDocumentUploadDialogViewModel, OpenEvents.Admin 
+
+<bs:ModalDialog IsDisplayed="{value: IsDisplayed}">
+    <HeaderTemplate>
+        Upload Document
+    </HeaderTemplate>
+    <ContentTemplate>
+
+        <bs:Form>
+            <bs:ComboBoxGroup LabelText="Document Type" DataSource="{value: DocumentTypes}" SelectedValue="{value: Type}" />
+            <bs:FormGroup LabelText="File">
+                <dot:FileUpload UploadedFiles="{value: UploadedFiles}" />
+            </bs:FormGroup>
+        </bs:Form>
+
+    </ContentTemplate>
+    <FooterTemplate>
+        <div class="text-right">
+            <bs:LinkButton Type="Primary" Click="{command: Upload()}">
+                <bs:GlyphIcon Icon="Cloud_upload" /> Upload
+            </bs:LinkButton>
+        </div>
+    </FooterTemplate>
+</bs:ModalDialog>

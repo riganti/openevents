@@ -17,6 +17,7 @@
         </Content>
     </ItemGroup>
     <ItemGroup>
+        <None Remove="Controls\OrderDocumentUploadDialog.dotcontrol" />
         <None Remove="Controls\SidebarMenu.dotcontrol" />
         <None Remove="dotvvm_serialized_config.json.tmp" />
         <None Remove="Views\EventDetail.dothtml" />

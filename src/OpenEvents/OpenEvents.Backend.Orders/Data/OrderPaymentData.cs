@@ -12,9 +12,7 @@ namespace OpenEvents.Backend.Orders.Data
         public DateTime DueDate { get; set; }
 
         public DateTime? PaidDate { get; set; }
-
-        public List<OrderPayment> Payments { get; set; } = new List<OrderPayment>();
-
+        
     }
     
 }
